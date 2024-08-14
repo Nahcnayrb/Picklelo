@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/Picklelo/static/css/main.66fc2115.css",
+    "main.js": "/Picklelo/static/js/main.5ab0aea0.js",
+    "static/js/453.78f2ea60.chunk.js": "/Picklelo/static/js/453.78f2ea60.chunk.js",
+    "static/media/0542.png": "/Picklelo/static/media/0542.692644f150136bebc6f4.png",
+    "static/media/0543.png": "/Picklelo/static/media/0543.ec7748912c25a25a7964.png",
+    "static/media/0546.png": "/Picklelo/static/media/0546.8332dd8dd9bcff51594b.png",
+    "static/media/pickle.png": "/Picklelo/static/media/pickle.ff29c2ce3487f2058666.png",
+    "static/media/pickleball-logo.png": "/Picklelo/static/media/pickleball-logo.e7abb61d1b0396bff61c.png",
+    "static/media/0353.jpg": "/Picklelo/static/media/0353.0dc497d329d04a3e1d42.jpg",
+    "static/media/logo.svg": "/Picklelo/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/Picklelo/index.html",
+    "main.66fc2115.css.map": "/Picklelo/static/css/main.66fc2115.css.map",
+    "main.5ab0aea0.js.map": "/Picklelo/static/js/main.5ab0aea0.js.map",
+    "453.78f2ea60.chunk.js.map": "/Picklelo/static/js/453.78f2ea60.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.66fc2115.css",
+    "static/js/main.5ab0aea0.js"
+  ]
+}
