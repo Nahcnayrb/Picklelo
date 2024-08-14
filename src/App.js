@@ -53,7 +53,7 @@ function App() {
 
 
   return (
-        <BrowserRouter>
+        <HashRouter>
           <div className="App" id="outer-container">
           <NavigationBar></NavigationBar>
             <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} user={user}/>
@@ -68,7 +68,7 @@ function App() {
               </Routes>
           </div>
         
-        </BrowserRouter>
+        </HashRouter>
 
   );
 }
