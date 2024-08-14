@@ -31,20 +31,20 @@ export default props => {
       </a>
       <a className="menu-item" href="#/leaderboard" onClick={handleIsOpen}>
         Leaderboard
-        <Leaderboard fontSize="medium" style={{marginLeft: "5px", paddingTop: "7px"}}/>
+        <Leaderboard fontSize="medium" style={{marginLeft: "7px", marginBottom: "8px"}}/>
       </a>
       <a className="menu-item" href="#/tournaments" onClick={handleIsOpen}>
         Tournaments
-        <Groups fontSize="medium" style={{marginLeft: "5px", paddingTop: "7px"}}/>
+        <Groups fontSize="medium" style={{marginLeft: "5px", marginBottom: "6px"}}/>
       </a>
       <a className="menu-item" href="#/duels" onClick={handleIsOpen}>
         Duels
-        <SportsKabaddi fontSize="medium" style={{marginLeft: "5px", paddingTop: "7px"}}/>
+        <SportsKabaddi fontSize="medium" style={{marginLeft: "7px", marginBottom: "6px"}}/>
       </a>
 
       <a className="menu-item" href="#/pickled" onClick={handleIsOpen}>
         Pickled List
-        <ThumbDown fontSize="medium" style={{marginLeft: "5px", paddingTop: "7px"}}/>
+        <ThumbDown fontSize="medium" style={{marginLeft: "7px", marginBottom: "5px"}}/>
       </a>
 
       <div className='padding'/>

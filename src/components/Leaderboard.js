@@ -69,7 +69,7 @@ export default function Leaderboard() {
 
     return (
     <div className='leaderboard-container'>
-        <h2 style={{color: "white", fontWeight: "1000", fontSize: "30px", paddingTop: "30px",paddingBottom: "5px", letterSpacing: "1px"}}>Season 1 Leaderboard</h2>
+        <h2 style={{color: "white", fontWeight: "1000", fontSize: "30px", paddingTop: "50px",paddingBottom: "5px", letterSpacing: "1px"}}>Season 1 Leaderboard</h2>
         <label style={{color: "white", fontWeight: "700", fontSize: "14px"}}>Tip: Tap on a player to view their profile!</label>
 
         {topThreePlayers?
@@ -90,7 +90,7 @@ export default function Leaderboard() {
 
                     </div>
                     <div className='ranking-container'>
-                        <label className='ranking-label' style={{fontSize: "40px"}}>2</label>
+                        <label className='ranking-label' style={{fontSize: "3rem"}}>2</label>
 
                     </div>
                     
@@ -113,7 +113,7 @@ export default function Leaderboard() {
 
                     </div>
                     <div className='ranking-container'>
-                        <label className='ranking-label' style={{fontSize: "55px"}}>1</label>
+                        <label className='ranking-label' style={{fontSize: "4rem", marginRight: "5px"}}>1</label>
 
                     </div>
 
@@ -135,7 +135,7 @@ export default function Leaderboard() {
 
                     </div>
                     <div className='ranking-container'>
-                        <label className='ranking-label' style={{fontSize: "40px"}}>3</label>
+                        <label className='ranking-label' style={{fontSize: "3rem"}}>3</label>
 
                     </div>
 

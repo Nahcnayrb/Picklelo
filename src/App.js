@@ -12,7 +12,8 @@ import Profile from './components/Profile';
 import { useState, useEffect} from 'react';
 import axios from 'axios';
 import Leaderboard from './components/Leaderboard';
-
+import DuelsDashboard from './components/DuelsDashboard';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -65,6 +66,7 @@ function App() {
                 <Route exact path='/register' element={<Register/>}/>
                 <Route exact path ='/players/:username' element={<Profile/>}/>
                 <Route exact path ='/leaderboard' element={<Leaderboard/>}/>
+                <Route exact path = '/duels' element={<DuelsDashboard/>}/>
               </Routes>
           </div>
         
