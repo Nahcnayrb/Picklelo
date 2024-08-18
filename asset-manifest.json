@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Picklelo/static/css/main.97063529.css",
-    "main.js": "/Picklelo/static/js/main.6779563b.js",
+    "main.css": "/Picklelo/static/css/main.2b6b844b.css",
+    "main.js": "/Picklelo/static/js/main.c32b9149.js",
     "static/js/453.78f2ea60.chunk.js": "/Picklelo/static/js/453.78f2ea60.chunk.js",
     "static/media/0427.png": "/Picklelo/static/media/0427.2e506238c3d4383133d0.png",
     "static/media/0542.png": "/Picklelo/static/media/0542.692644f150136bebc6f4.png",
@@ -17,12 +17,12 @@
     "static/media/0353.jpg": "/Picklelo/static/media/0353.0dc497d329d04a3e1d42.jpg",
     "static/media/logo.svg": "/Picklelo/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/Picklelo/index.html",
-    "main.97063529.css.map": "/Picklelo/static/css/main.97063529.css.map",
-    "main.6779563b.js.map": "/Picklelo/static/js/main.6779563b.js.map",
+    "main.2b6b844b.css.map": "/Picklelo/static/css/main.2b6b844b.css.map",
+    "main.c32b9149.js.map": "/Picklelo/static/js/main.c32b9149.js.map",
     "453.78f2ea60.chunk.js.map": "/Picklelo/static/js/453.78f2ea60.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.97063529.css",
-    "static/js/main.6779563b.js"
+    "static/css/main.2b6b844b.css",
+    "static/js/main.c32b9149.js"
   ]
 }
