@@ -115,7 +115,7 @@ export default function Register() {
                     <h3>Register New Player</h3>
                     <div className="form-group">
                         {nameError?<Alert severity="error">{nameError}</Alert>:""}
-                        <label className="form-label">Full Name</label>
+                        <label className="form-label">Name</label>
                         <input type='text' className="form-control" placeholder="" value={name} onChange={(e) => setName(e.target.value)}/>
                     
                         <div className="form-padding"/>

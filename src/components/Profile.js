@@ -6,9 +6,23 @@ export default function Profile() {
 
 
     return (
-        <div>
-           <label>{username}</label>
-        </div>
+
+
+            <div className='auth-wrapper'>
+                <div className='auth-inner' style={{marginTop: "5rem"}}>
+    
+                    <h1 style={{textAlign: "center"}}>{username}</h1>
+                
+                </div>
+
+                <div className='auth-inner' style={{marginTop: "5rem"}}>
+    
+                    <h1 style={{textAlign: "center"}}>Match History feature is coming Soon :)</h1>
+
+                </div>
+            </div>
+    
+        
     )
 
 }

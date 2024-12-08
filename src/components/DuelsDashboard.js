@@ -160,6 +160,7 @@ export default function DuelsDashboard(props) {
         <div className="duels-dashboard-container">
             <div className="duels-header-container">
             <h2 style={{color: "white", fontWeight: "1000", fontSize: "40px", paddingTop: "25px",paddingBottom: "25px", letterSpacing: "2px"}}>Duels</h2>
+            {props.isLoggedIn?"":<h6 style={{color: "white", paddingBottom: "20px"}}>Tip: In order to modify duels, You must be logged in.</h6>}
             </div>
 
 
@@ -230,12 +231,12 @@ export default function DuelsDashboard(props) {
 
                             <div className="button-container">
 
-                                <Button className="match-button" disabled={(duel.higherEloScore && duel.lowerEloScore)} variant="dark" onClick={()=>{handleClickScoreboard(duel)}}>
+                                <Button className="match-button" disabled={!props.isLoggedIn || (duel.higherEloScore && duel.lowerEloScore)} variant="dark" onClick={()=>{handleClickScoreboard(duel)}}>
                                     <ScoreboardIcon fontSize='medium'/>
                                 </Button>
                                 <div className="vertical-padding"></div>
 
-                                <Button className="match-button" variant="dark" onClick={()=>{handleClickDelete(duel)}}>
+                                <Button className="match-button" disabled={!props.isLoggedIn} variant="dark" onClick={()=>{handleClickDelete(duel)}}>
                                     <DeleteIcon fontSize='medium'/>
                                 </Button>
 
