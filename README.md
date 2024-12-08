@@ -1,6 +1,6 @@
 
 
-<img src="https://github.com/user-attachments/assets/a8e56389-3ed7-4ad0-9352-564e3f49c114" width="600">
+<img src="https://github.com/user-attachments/assets/a8e56389-3ed7-4ad0-9352-564e3f49c114" width="450">
 
 Picklelo is a platform that automatically tracks the ELO rating of registered users relative to each other, based on the recorded pickleball matches on the platform.
 
