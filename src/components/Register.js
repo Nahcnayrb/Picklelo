@@ -116,20 +116,20 @@ export default function Register() {
                     <div className="form-group">
                         {nameError?<Alert severity="error">{nameError}</Alert>:""}
                         <label className="form-label">Full Name</label>
-                        <input type='text' className="form-control" placeholder="Ex. Hugh Jazz" value={name} onChange={(e) => setName(e.target.value)}/>
+                        <input type='text' className="form-control" placeholder="" value={name} onChange={(e) => setName(e.target.value)}/>
                     
                         <div className="form-padding"/>
 
                         {usernameError?<Alert severity="error">{usernameError}</Alert>:""}
 
                         <label className="form-label">Username</label>
-                        <input type='text' className="form-control" placeholder="Ex. adarn" value={username} onChange={(e) => setUsername(e.target.value)}/>
+                        <input type='text' className="form-control" placeholder="" value={username} onChange={(e) => setUsername(e.target.value)}/>
 
                         <div className="form-padding"/>
 
                         {emailError?<Alert severity="error">{emailError}</Alert>:""}
                         <label className="form-label">Email</label>
-                        <input type='text' className="form-control" placeholder="hughjazz@example.com" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                        <input type='text' className="form-control" placeholder="test@example.com" value={email} onChange={(e) => setEmail(e.target.value)}/>
 
                         <div className="form-padding"/>
 

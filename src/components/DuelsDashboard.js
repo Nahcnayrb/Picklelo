@@ -1,17 +1,263 @@
 
-import { Button } from "@mui/material";
+// import { Button } from "@mui/material";
 import DuelsModal from "./DuelsModal";
-import { useState } from "react";
+import { useState, useEffect} from "react";
+import axios from "axios";
+import Button from 'react-bootstrap/Button';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import SportsKabaddiIcon from '@mui/icons-material/SportsKabaddi';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ScoreboardIcon from '@mui/icons-material/Scoreboard';
+import "./DuelsDashboard.css"
+import { Divider } from "@mui/material";
 
-export default function DuelsDashboard() {
+import pfp from "./0353.jpg"
+import devon from "./0542.png"
+import bryan from "./1027.png"
+import ivan from "./0546.png"
+import saku from "./0427.png"
+import adarn from "./0433.png"
+import wilson from "./0438.png"
+import kai from "./0443.png"
+import defaultpfp from "./0617.png"
+import DuelsScoreboard from "./DuelsScoreboard";
+import DeleteDuelModal from "./DeleteDuelModal";
+import { Navigate } from "react-router-dom";
+
+export default function DuelsDashboard(props) {
 
     const [showModal, setShowModal] = useState(false)
+    const [players, setPlayersData] = useState([])
+    const [duels, setDuels] = useState()
+    const [playerMap, setPlayerMap] = useState()
+    const [showScoreboard, setShowScoreboard] = useState(false)
+    const [selectedDuel, setSelectedDuel] = useState("")
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
 
-    return (
-        <div>
-            <Button onClick={()=>{setShowModal(true)}}>New Duel</Button>
+    const [redirectToHome, setRedirectToHome] = useState(false)
+    let fetchedDataSuccessfully = false
 
-        <DuelsModal show={showModal} setShow={setShowModal}/>
+    useEffect(()=> {
+
+        fetchData()
+
+        setTimeout(()=> {
+            if (!fetchedDataSuccessfully) {
+                setRedirectToHome(true)
+            }
+
+        },1000)
+    
+    },[])
+
+    function fetchData() {
+
+        axios.get("/players").then(
+            res => {
+                fetchedDataSuccessfully = true
+                setRedirectToHome(false)
+                setPlayersData(res.data)
+                let map = new Map();
+
+                res.data.forEach((player) => {
+                    map.set(player.username, player)
+                })
+
+                setPlayerMap(map)
+        
+        
+            }
+        ).catch(
+            err => {
+
+                console.log(err)
+        
+            }
+        )
+
+        axios.get("/duels").then(
+            res => {
+
+                let duels = res.data
+                duels.sort(function(a,b){
+                    return new Date(b.date) - new Date(a.date)
+                })
+                setDuels(duels)
+        
+            }
+        ).catch(
+            err => {
+                console.log(err)
+            }
+        )
+
+    }
+
+    
+      function getCorrespondingPfp(playerUsername) {
+        if (playerUsername == "sakura") {
+            return saku
+        } else if (playerUsername == "izeng") {
+            return ivan
+        } else if (playerUsername == "devonwu") {
+            return devon
+        } else if (playerUsername == "adarn") {
+            return adarn
+        } else if (playerUsername == "bryanly") {
+            return bryan
+        } else if (playerUsername == "goon") {
+            return wilson
+        } else if (playerUsername == "bryanchan") {
+            return kai
+        } else if (playerUsername == "nahcnayrb") {
+            return pfp
+        } else {
+            return defaultpfp
+        }
+    }
+
+    function calculateEloChange(duel, username) {
+        if (!duel.lowerEloScore || !duel.higherEloScore) {
+            return ""
+        } else {
+            // we have scores for both players
+            if (duel.lowerEloScore > duel.higherEloScore) {
+                // lower elo player won
+                if (username == duel.lowerEloUsername) {
+                    return " (" + "+" + duel.lowerEloGainPotential + ")"
+                } else {
+                    // case other player
+                    return " (" + "-" + duel.lowerEloGainPotential + ")"
+                }
+            } else {
+                // high elo player won
+                if (username == duel.higherEloUsername) {
+                    return " (" + "+" + duel.higherEloGainPotential + ")"
+                } else {
+                    // case other player
+                    return " (" + "-" + duel.higherEloGainPotential + ")"
+                }
+
+            }
+        }
+    }
+
+    function handleClickScoreboard(duel) {
+        setSelectedDuel(duel)
+        setShowScoreboard(true)
+    }
+
+    function handleClickDelete(duel) {
+        setSelectedDuel(duel)
+        setShowDeleteModal(true)
+    }
+
+    if (redirectToHome) {
+        return <Navigate to={'/'}/>
+
+    } else return (
+
+        <div className="duels-dashboard-container">
+            <div className="duels-header-container">
+            <h2 style={{color: "white", fontWeight: "1000", fontSize: "40px", paddingTop: "25px",paddingBottom: "25px", letterSpacing: "2px"}}>Duels</h2>
+            </div>
+
+
+            {props.isLoggedIn?<>
+            <Button onClick={()=>{setShowModal(true)}} variant="dark" style={{marginTop: "35px", width: "250px"}}>
+                START A DUEL
+                <SportsKabaddiIcon style={{marginLeft: "15px"}}/>
+            </Button>
+            <DuelsModal 
+                players={players} 
+                show={showModal} 
+                setShow={setShowModal} 
+                fetchData={fetchData}
+            />
+            <DuelsScoreboard 
+                duel={selectedDuel}
+                show={showScoreboard} 
+                setShow={setShowScoreboard} 
+                playerMap={playerMap} 
+                fetchData={fetchData}
+             />
+            <DeleteDuelModal 
+                duel={selectedDuel}
+                playerMap={playerMap}
+                show={showDeleteModal}
+                setShow={setShowDeleteModal}
+                fetchData={fetchData}
+            />
+            </>:""}
+
+            <div className="recent-duels-container">
+                <div className="matches-container">
+
+                {duels ? duels.map((duel, i) => (
+                        <div className={(duel.higherEloScore && duel.lowerEloScore)?"completed-match-container":"in-progress-match-container"} key={i}>
+                            <div className="match-details-container">
+
+                                <div className="match-details-header">
+                                    <label className="date-label">{duel.date.substring(0,10)}</label>
+
+                                    <label className="status-label">{(duel.higherEloScore && duel.lowerEloScore)?"COMPLETED":"IN PROGRESS"}</label>
+
+                                </div>
+                                <Divider className="horizontal-divider" orientation="horizontal"/>
+
+                                <div className="team-container">
+                                    <img src={getCorrespondingPfp(duel.higherEloUsername)} className='match-pfp' style={{marginTop: "0.75rem"}}></img>
+                                    {playerMap?<label className="match-label">{playerMap.get(duel.higherEloUsername).name + calculateEloChange(duel, duel.higherEloUsername)}</label>:""}
+                                    <Divider className="vertical-divider" orientation="vertical" flexItem/>
+                                    <div className="score-container">
+                                        <label className="score-label">{duel.higherEloScore}</label>
+                                    </div>
+                                </div>
+                                <Divider className="horizontal-divider" orientation="horizontal"/>
+                                <div className="team-container">
+                                    <img src={getCorrespondingPfp(duel.lowerEloUsername)} className='match-pfp' style={{marginTop: "0.75rem"}}></img>
+                                    {playerMap?<label className="match-label">{playerMap.get(duel.lowerEloUsername).name + calculateEloChange(duel, duel.lowerEloUsername)}</label>:""}
+                                    <Divider className="vertical-divider" orientation="vertical" flexItem/>
+                                    <div className="score-container">
+                                        <label className="score-label">{duel.lowerEloScore}</label>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <Divider className="vertical-divider" orientation="vertical" flexItem/>
+
+                            <div className="button-container">
+
+                                <Button className="match-button" disabled={(duel.higherEloScore && duel.lowerEloScore)} variant="dark" onClick={()=>{handleClickScoreboard(duel)}}>
+                                    <ScoreboardIcon fontSize='medium'/>
+                                </Button>
+                                <div className="vertical-padding"></div>
+
+                                <Button className="match-button" variant="dark" onClick={()=>{handleClickDelete(duel)}}>
+                                    <DeleteIcon fontSize='medium'/>
+                                </Button>
+
+                            </div>
+
+
+
+
+                        </div>
+
+
+                )):""}
+                </div>
+
+                    <div className="vertical-padding"></div>
+                    <div className="vertical-padding"></div>
+            </div>
+    
+            
+
+            
+        
         </div>
 
     )

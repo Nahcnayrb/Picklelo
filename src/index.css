@@ -10,7 +10,7 @@ body {
 
 }
 
-body, html, .App, #root, .auth-wrapper {
+body, html, #root, .auth-wrapper {
   width: 100%;
   height: 100%;
   font-weight: 400 !important;
@@ -160,7 +160,7 @@ font-size: 22px;
 
 .top-three-container {
   display: flex;
-  height: 45%;
+  height: 100%;
   width: 100%;
   cursor: pointer;
 }
@@ -171,8 +171,9 @@ font-size: 22px;
   display: inline-block;
   text-align: center;
   background-color: #afcf51;
+  padding-bottom: 1rem;
+  /* padding-bottom: 26px; */
   /* filter: brightness(110%); */
-  padding-bottom: 10%;
 }
 
 .second-place-container {
@@ -181,7 +182,10 @@ font-size: 22px;
   display: inline-block;
   text-align: center;
   background-color: #98b83b;
+  /* margin-top: 5%; */
+  margin-top: 1.5rem;
   /* filter: brightness(90%); */
+  padding-bottom: 0rem;
 
 
   
@@ -192,7 +196,9 @@ font-size: 22px;
   height: 100%;
   display: inline-block;
   text-align: center;
-  background-color: #92b528;
+  background-color: #98b83b;
+  margin-top: 2.75rem;
+  /* margin-top: 5%; */
   /* filter: brightness(80%); */
 
   
@@ -293,9 +299,35 @@ font-size: 22px;
 }
 
 .duels-modal .modal-content {
-  background-color:#79c79f;
+  /* background-color:#79c79f; */
+  background-color: rgb(126, 126, 196);
 }
 
+
+
+
+.potential-elo-changes-container {
+  display: inline-block;
+}
+
+.modal-padding {
+  padding-bottom: 20px;
+}
+
+.modal-label {
+  width: 100%;
+}
+
+.elo-input {
+  text-align: center;
+  padding-right: 15px;
+}
+
+h4 {
+
+  padding-bottom: 2%;
+
+}
 
 
 

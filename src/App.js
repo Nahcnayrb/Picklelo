@@ -29,13 +29,14 @@ function App() {
     axios.get("/login/authenticate/" + token).then(
         res => {
             let user = res.data
+            console.log("Fetched user!")
             setUser(user)
         }
     ).catch(
         err => {
-            if (err.response.status === 404) {
-                console.log("could not fetch user data")
-            }
+            // if (err.response.status === 404) {
+            //     console.log("could not fetch user data")
+            // }
         }
     )
 
@@ -48,7 +49,6 @@ function App() {
     }
 
   },[])
-
 
 
 
@@ -66,7 +66,7 @@ function App() {
                 <Route exact path='/register' element={<Register/>}/>
                 <Route exact path ='/players/:username' element={<Profile/>}/>
                 <Route exact path ='/leaderboard' element={<Leaderboard/>}/>
-                <Route exact path = '/duels' element={<DuelsDashboard/>}/>
+                <Route exact path = '/duels' element={<DuelsDashboard isLoggedIn={isLoggedIn} user={user}/>}/>
               </Routes>
           </div>
         

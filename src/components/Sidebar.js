@@ -17,6 +17,7 @@ export default props => {
     localStorage.removeItem("token")
     props.setIsLoggedIn(false)
     handleIsOpen()
+    setTimeout(()=>{window.location.reload()},200)
 
 
   }
