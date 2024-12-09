@@ -60,8 +60,8 @@ export default props => {
 
 
       {props.isLoggedIn?
-      <a className="menu-item" href="#/profile" onClick={handleIsOpen}>
-        My Profile
+      <a className="menu-item" href="#/settings" onClick={handleIsOpen}>
+        Settings
       </a>
       :""}
       {props.isLoggedIn?
