@@ -270,8 +270,8 @@ font-size: 22px;
 .rest-pfp {
   margin-left: 1rem;
   border-radius: 50%;
-  width: 64px;
-  height: 64px;
+  width: 100px;
+  height: 100px;
 }
 
 .rest-name-container {
@@ -376,6 +376,13 @@ h4 {
   .rest-name-container {
     margin-left: 1.5rem;
     /* padding-right: 5%; */
+  }
+
+  .rest-pfp {
+    margin-left: 1rem;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
   }
 
 }
