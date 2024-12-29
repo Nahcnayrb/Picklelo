@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/Picklelo/static/css/main.bcda5211.css",
-    "main.js": "/Picklelo/static/js/main.09ed74ea.js",
+    "main.css": "/Picklelo/static/css/main.02aa048e.css",
+    "main.js": "/Picklelo/static/js/main.8dc33409.js",
     "static/js/453.78f2ea60.chunk.js": "/Picklelo/static/js/453.78f2ea60.chunk.js",
     "static/media/pickle.png": "/Picklelo/static/media/pickle.ff29c2ce3487f2058666.png",
     "static/media/pickleball-logo.png": "/Picklelo/static/media/pickleball-logo.e7abb61d1b0396bff61c.png",
     "index.html": "/Picklelo/index.html",
-    "main.bcda5211.css.map": "/Picklelo/static/css/main.bcda5211.css.map",
-    "main.09ed74ea.js.map": "/Picklelo/static/js/main.09ed74ea.js.map",
+    "main.02aa048e.css.map": "/Picklelo/static/css/main.02aa048e.css.map",
+    "main.8dc33409.js.map": "/Picklelo/static/js/main.8dc33409.js.map",
     "453.78f2ea60.chunk.js.map": "/Picklelo/static/js/453.78f2ea60.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.bcda5211.css",
-    "static/js/main.09ed74ea.js"
+    "static/css/main.02aa048e.css",
+    "static/js/main.8dc33409.js"
   ]
 }
