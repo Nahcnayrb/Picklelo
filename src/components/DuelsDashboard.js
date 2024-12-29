@@ -191,7 +191,7 @@ export default function DuelsDashboard(props) {
                                 </div>
                                 <Divider className="horizontal-divider" orientation="horizontal"/>
                                 <div className="team-container">
-                                    <img src={getPfp(playerMap.get(duel.lowerEloUsername))} className='match-pfp' style={{marginTop: "0.75rem"}}></img>
+                                    {playerMap?<img src={getPfp(playerMap.get(duel.lowerEloUsername))} className='match-pfp' style={{marginTop: "0.75rem"}}></img>:""}
                                     {playerMap?<label className="match-label">{playerMap.get(duel.lowerEloUsername).name + calculateEloChange(duel, duel.lowerEloUsername)}</label>:""}
                                     <Divider className="vertical-divider" orientation="vertical" flexItem/>
                                     <div className="score-container">

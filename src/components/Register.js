@@ -145,7 +145,7 @@ export default function Register() {
                         <label className="form-label">Confirm Password</label>
                         <input type='password' className="form-control" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
                         <div className="form-padding"/>
-                        <Button type="submit" variant="contained" style={{backgroundColor: "#006400", width: "110px"}}>
+                        <Button type="submit" variant="contained" style={{backgroundColor: "#262525", width: "110px"}}>
                                 <label className='form-label' style={{cursor: "pointer"}}>Sign Up!</label>
                         </Button>
                     </div>
