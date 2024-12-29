@@ -1,14 +1,6 @@
 
 import { useState, useEffect} from 'react';
 import axios from 'axios';
-import pfp from "./0140.png"
-import devon from "./0542.png"
-import bryan from "./1027.png"
-import ivan from "./0546.png"
-import saku from "./0427.png"
-import adarn from "./0433.png"
-import wilson from "./0438.png"
-import kai from "./0137.png"
 import defaultpfp from "./0617.png"
 import { Navigate } from "react-router-dom";
 
@@ -60,26 +52,14 @@ export default function Leaderboard() {
 
     }
 
-    function getCorrespondingPfp(playerUsername) {
-        if (playerUsername == "sakura") {
-            return saku
-        } else if (playerUsername == "izeng") {
-            return ivan
-        } else if (playerUsername == "devonwu") {
-            return devon
-        } else if (playerUsername == "adarn") {
-            return adarn
-        } else if (playerUsername == "bryanly") {
-            return bryan
-        } else if (playerUsername == "goon") {
-            return wilson
-        } else if (playerUsername == "bryanchan") {
-            return kai
-        } else if (playerUsername == "nahcnayrb") {
-            return pfp
+    function getPfp(player) {
+        if (!player.hasPfp) {
+            return defaultpfp;
         } else {
-            return defaultpfp
+            // case has pfp
+            return process.env.REACT_APP_BLOB_STORAGE_URL + player.username;
         }
+
     }
 
 
@@ -112,7 +92,7 @@ export default function Leaderboard() {
 
                 <div className='second-place-container' onClick={() => {handlePlayerClick(topThreePlayers[1].username)}}>
                     <div className='photo-container'>
-                        <img src={getCorrespondingPfp(topThreePlayers[1].username)} className='pfp' style={{marginTop: "0.75rem"}}></img>
+                        <img src={getPfp(topThreePlayers[1])} className='pfp' style={{marginTop: "0.75rem"}}></img>
 
                     </div>
                     <div className='name-container'>
@@ -135,8 +115,7 @@ export default function Leaderboard() {
                 <div className='first-place-container' onClick={() => {handlePlayerClick(topThreePlayers[0].username)}}>
 
                 <div className='photo-container'>
-                        <img src={getCorrespondingPfp(topThreePlayers[0].username)} className='pfp' style={{marginTop: "0.75rem"}}></img>
-
+                        <img src={getPfp(topThreePlayers[0])} className='pfp' style={{marginTop: "0.75rem"}}></img>
                     </div>
                     <div className='name-container'>
                         <label style={{color: "white", fontWeight: "700", fontSize: "23px"}}>{topThreePlayers[0].name}</label>
@@ -157,7 +136,7 @@ export default function Leaderboard() {
                 <div className='third-place-container' onClick={() => {handlePlayerClick(topThreePlayers[2].username)}}>
 
                 <div className='photo-container'>
-                    <img src={getCorrespondingPfp(topThreePlayers[2].username)} className='pfp' style={{marginTop: "0.75rem"}}></img>
+                    <img src={getPfp(topThreePlayers[2])} className='pfp' style={{marginTop: "0.75rem"}}></img>
 
                     </div>
                     <div className='name-container'>
@@ -193,7 +172,7 @@ export default function Leaderboard() {
                             </div>
 
                             
-                            <img src={getCorrespondingPfp(player.username)} className='rest-pfp' style={{marginTop: "0.75rem"}}></img>
+                            <img src={getPfp(player)} className='rest-pfp' style={{marginTop: "0.75rem"}}></img>
 
                             <div className='rest-name-container'>
                                 <label className='rest-name-label'>{player.name}</label>

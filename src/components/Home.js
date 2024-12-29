@@ -1,4 +1,3 @@
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { CircularProgress } from '@mui/material';
 import pickleball from "./pickleball-logo.png"
 import { useState, useEffect} from "react";

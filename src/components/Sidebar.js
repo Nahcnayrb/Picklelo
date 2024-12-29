@@ -1,6 +1,5 @@
 import React from 'react';
 import { slide as Menu } from 'react-burger-menu';
-import { Link } from "react-router-dom"
 import './Sidebar.css';
 import { Leaderboard, SportsKabaddi, ThumbDown, Groups} from '@mui/icons-material';
 import { useState } from 'react';
@@ -14,7 +13,7 @@ export default props => {
 
   function handleLogout() {
 
-    localStorage.removeItem("token")
+    localStorage.removeItem("picklelo-token")
     props.setIsLoggedIn(false)
     handleIsOpen()
     setTimeout(()=>{window.location.reload()},200)
@@ -60,8 +59,8 @@ export default props => {
 
 
       {props.isLoggedIn?
-      <a className="menu-item" href="#/profile" onClick={handleIsOpen}>
-        My Profile
+      <a className="menu-item" href="#/settings" onClick={handleIsOpen}>
+        Settings
       </a>
       :""}
       {props.isLoggedIn?

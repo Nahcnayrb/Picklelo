@@ -1,24 +1,12 @@
-
-// import { Button } from "@mui/material";
 import DuelsModal from "./DuelsModal";
 import { useState, useEffect} from "react";
 import axios from "axios";
 import Button from 'react-bootstrap/Button';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import SportsKabaddiIcon from '@mui/icons-material/SportsKabaddi';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ScoreboardIcon from '@mui/icons-material/Scoreboard';
 import "./DuelsDashboard.css"
 import { Divider } from "@mui/material";
-
-import pfp from "./0353.jpg"
-import devon from "./0542.png"
-import bryan from "./1027.png"
-import ivan from "./0546.png"
-import saku from "./0427.png"
-import adarn from "./0433.png"
-import wilson from "./0438.png"
-import kai from "./0443.png"
 import defaultpfp from "./0617.png"
 import DuelsScoreboard from "./DuelsScoreboard";
 import DeleteDuelModal from "./DeleteDuelModal";
@@ -93,27 +81,14 @@ export default function DuelsDashboard(props) {
 
     }
 
-    
-      function getCorrespondingPfp(playerUsername) {
-        if (playerUsername == "sakura") {
-            return saku
-        } else if (playerUsername == "izeng") {
-            return ivan
-        } else if (playerUsername == "devonwu") {
-            return devon
-        } else if (playerUsername == "adarn") {
-            return adarn
-        } else if (playerUsername == "bryanly") {
-            return bryan
-        } else if (playerUsername == "goon") {
-            return wilson
-        } else if (playerUsername == "bryanchan") {
-            return kai
-        } else if (playerUsername == "nahcnayrb") {
-            return pfp
+    function getPfp(player) {
+        if (!player.hasPfp) {
+            return defaultpfp;
         } else {
-            return defaultpfp
+            // case has pfp
+            return process.env.REACT_APP_BLOB_STORAGE_URL + player.username;
         }
+
     }
 
     function calculateEloChange(duel, username) {
@@ -207,7 +182,7 @@ export default function DuelsDashboard(props) {
                                 <Divider className="horizontal-divider" orientation="horizontal"/>
 
                                 <div className="team-container">
-                                    <img src={getCorrespondingPfp(duel.higherEloUsername)} className='match-pfp' style={{marginTop: "0.75rem"}}></img>
+                                    {playerMap?<img src={getPfp(playerMap.get(duel.higherEloUsername))} className='match-pfp' style={{marginTop: "0.75rem"}}></img>:""}
                                     {playerMap?<label className="match-label">{playerMap.get(duel.higherEloUsername).name + calculateEloChange(duel, duel.higherEloUsername)}</label>:""}
                                     <Divider className="vertical-divider" orientation="vertical" flexItem/>
                                     <div className="score-container">
@@ -216,7 +191,7 @@ export default function DuelsDashboard(props) {
                                 </div>
                                 <Divider className="horizontal-divider" orientation="horizontal"/>
                                 <div className="team-container">
-                                    <img src={getCorrespondingPfp(duel.lowerEloUsername)} className='match-pfp' style={{marginTop: "0.75rem"}}></img>
+                                    <img src={getPfp(playerMap.get(duel.lowerEloUsername))} className='match-pfp' style={{marginTop: "0.75rem"}}></img>
                                     {playerMap?<label className="match-label">{playerMap.get(duel.lowerEloUsername).name + calculateEloChange(duel, duel.lowerEloUsername)}</label>:""}
                                     <Divider className="vertical-divider" orientation="vertical" flexItem/>
                                     <div className="score-container">
