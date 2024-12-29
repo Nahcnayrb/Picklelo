@@ -38,9 +38,9 @@ export default function DuelsDashboard(props) {
     
     },[])
 
-    function fetchData() {
+    async function fetchData() {
 
-        axios.get("/players").then(
+        await axios.get("/players").then(
             res => {
                 fetchedDataSuccessfully = true
                 setRedirectToHome(false)
@@ -63,7 +63,7 @@ export default function DuelsDashboard(props) {
             }
         )
 
-        axios.get("/duels").then(
+        await axios.get("/duels").then(
             res => {
 
                 let duels = res.data

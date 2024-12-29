@@ -4,6 +4,7 @@ import { Button } from '@mui/material'
 import defaultpfp from "./0617.png"
 import Alert from '@mui/material/Alert'
 import imageCompression from 'browser-image-compression';
+import axios from "axios"
 
 export default function UserProfile(props) {
 
@@ -17,7 +18,7 @@ export default function UserProfile(props) {
     const [pfpUploadStatus, setPfpUploadStatus] = useState()
     const [disableSave, setDisableSave] = useState(false)
     const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-
+    const [pfpIsDefault, setPfpIsDefault] = useState(true)
 
     useEffect(()=> {
 
@@ -33,9 +34,11 @@ export default function UserProfile(props) {
 
     function getPfp(player) {
         if (!player.hasPfp) {
+            setPfpIsDefault(true)
             return defaultpfp;
         } else {
             // case has pfp
+            setPfpIsDefault(false)
             return process.env.REACT_APP_BLOB_STORAGE_URL + player.username;
         }
     }
@@ -68,6 +71,7 @@ export default function UserProfile(props) {
 
                 const file = URL.createObjectURL(compressedFile)
                 setProfilePicture(file)
+                setPfpIsDefault(false)
 
                 setPfpUploadStatus("Uploaded!")
             } else {
@@ -88,21 +92,22 @@ export default function UserProfile(props) {
 
         // case user puts in non jpg/png file (determined by file.type)
         // show pfp error 
+        let pfp = {};
+        const username = props.user.username;
 
         let data = {
             name: name,
-            username: props.user.username,
             email: email,
             hasPfp: false
         }
 
-        if (profilePicture) {
+        if ((profilePicture) && (!pfpIsDefault)) {
             // case pfp exists
             data.hasPfp = true
             await fetch(profilePicture).then(
                 r => r.blob()).then(
                     blobFile => {
-                        data.pfp = new File([blobFile], "file", { type: blobFile.type})
+                        pfp = new File([blobFile], "file", { type: blobFile.type})
                     })
         }
 
@@ -139,34 +144,57 @@ export default function UserProfile(props) {
             // disable save button until api call is complete, so user can't spam api requests
             setStatus("Saving")
             setDisableSave(true)
+            console.log(profilePicture);
+
+            if ((profilePicture) && (!pfpIsDefault)) {
+
+                console.log('about to upload pfp')
+                let url = '/pfps/' + username;
+
+                let formData = new FormData();
+                formData.append('file', pfp)
+                let config = {
+                    headers: {
+                        'content-type': 'multipart/form-data'
+                    }
+                }
+    
+                await axios.put(url, formData, config).then(
+                    res => {
+                        console.log("ADDED/UPDATED PFP FOR " + username);
+
+                    }
+                ).catch(
+                    err => {
+                        console.log(err.response)
+                    }
+                )
 
 
-            // if (profilePicture) {
-            //     // case need to upload pfp
+                // at this point, the pfp has been uploaded successfully onto cloud storage
+                // update user data to reflect new changes
+            }
 
-            //     // await axios.put()
-            // } else {
-            //     // case no profile picture
-            //     // if user had pfp before, we need to delete that pfp
+            console.log(data);
 
-            //     // await axios.delete()
-            // }
+            await axios.put("/players/" + username, data).then(
+                res => {
+                    console.log("updated player");
+                    setStatus("Saved");
 
-            // try {
-            //     await axios.put("/")
+                }
+            ).catch(
+                err => {
+                    console.log(err.response);
+                }
+            );
 
-            // }
-
-
-            // make actual api call here
             setTimeout(()=>{
+                // prevent save button from being clicked multiple times by delaying it from enabling again
+                // in case the put request finishes really fast
+                setDisableSave(false)
 
-                setStatus("Saved");
-
-                setTimeout(()=> {setDisableSave(false)},1000)
-
-
-            },600)
+            }, 2000)
 
         }
 
@@ -229,10 +257,10 @@ export default function UserProfile(props) {
                             <div style={{width: "150px", marginLeft: "20px", marginTop: "15px"}}>
                             <input type='file' style={{width: "100px", marginLeft: "20px"}} onChange={e => handleFileChange(e)}></input>
                             <input type='button' 
-                                disabled={!profilePicture} 
+                                disabled={!profilePicture || pfpIsDefault} 
                                 value={"Remove Picture"} 
                                 style={{width: "150px", marginTop: "20px"}}
-                                onClick={e => {setProfilePicture(); setPfpUploadStatus()}}
+                                onClick={e => {setProfilePicture(); setPfpUploadStatus();setPfpIsDefault(true)}}
                             ></input>
                             </div>
                         </div>
