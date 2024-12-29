@@ -1,7 +1,6 @@
 import Modal from 'react-bootstrap/Modal';
 import { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
-import Select from 'react-select'
 import axios from 'axios';
 
 export default function DeleteDuelModal(props) {

@@ -1,6 +1,4 @@
-import logo from './logo.svg';
-
-import { HashRouter, BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import NavigationBar from './components/NavigationBar';
 import Sidebar from './components/Sidebar';
 import { Routes,Route } from 'react-router-dom';
@@ -20,7 +18,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState()
 
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("picklelo-token")
 
   function fetchUserData() {
     let data = {

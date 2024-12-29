@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom"
 import { Button } from '@mui/material'
 import { useState } from "react"
 import axios from "axios"
@@ -25,7 +24,7 @@ export default function Login() {
         axios.post("/login", credentials).then(
             res => {
                 let token = res.data
-                localStorage.setItem("token", token)
+                localStorage.setItem("picklelo-token", token)
                 setLoggedIn(true)
                 setTimeout(()=>{window.location.reload()},50)
             }

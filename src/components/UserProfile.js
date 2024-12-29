@@ -1,7 +1,6 @@
 import { useEffect } from "react"
 import { useState } from 'react'
 import { Button } from '@mui/material'
-import pfp from "./0140.png"
 import defaultpfp from "./0617.png"
 import Alert from '@mui/material/Alert'
 import imageCompression from 'browser-image-compression';
@@ -26,13 +25,20 @@ export default function UserProfile(props) {
 
             setEmail(props.user.email)
             setName(props.user.name)
-            setProfilePicture(pfp)
+            setProfilePicture(getPfp(props.user))
         }
-
-
     
         },[props.user]
     )
+
+    function getPfp(player) {
+        if (!player.hasPfp) {
+            return defaultpfp;
+        } else {
+            // case has pfp
+            return process.env.REACT_APP_BLOB_STORAGE_URL + player.username;
+        }
+    }
 
     async function handleFileChange(e) {
         let originalFile = e.target.files[0]
@@ -87,11 +93,12 @@ export default function UserProfile(props) {
             name: name,
             username: props.user.username,
             email: email,
-            pfp: ""
+            hasPfp: false
         }
 
         if (profilePicture) {
             // case pfp exists
+            data.hasPfp = true
             await fetch(profilePicture).then(
                 r => r.blob()).then(
                     blobFile => {
@@ -132,6 +139,23 @@ export default function UserProfile(props) {
             // disable save button until api call is complete, so user can't spam api requests
             setStatus("Saving")
             setDisableSave(true)
+
+
+            // if (profilePicture) {
+            //     // case need to upload pfp
+
+            //     // await axios.put()
+            // } else {
+            //     // case no profile picture
+            //     // if user had pfp before, we need to delete that pfp
+
+            //     // await axios.delete()
+            // }
+
+            // try {
+            //     await axios.put("/")
+
+            // }
 
 
             // make actual api call here
