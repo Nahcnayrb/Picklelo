@@ -242,7 +242,7 @@ export default function UserProfile(props) {
                         <Button 
                             type="submit" 
                             variant="contained" 
-                            style={{backgroundColor: "#006400", width: "110px", marginLeft: "4.7rem"}}
+                            style={{backgroundColor: "#262525", width: "110px", marginLeft: "4.7rem"}}
                             disabled={disableSave}
                             onClick={handleSave}>
                                 <label className='form-label' style={{cursor: "pointer", paddingTop: "8px"}}>SAVE</label>

@@ -137,10 +137,9 @@
 
 
   .match-pfp {
-
     border-radius: 50%;
-    width: 64px;
-    height: 64px;
+    width: 90px;
+    height: 90px;
     margin-bottom: 1rem;
     margin-right: 0.5rem;
   }
@@ -158,21 +157,27 @@
         
       }
     
-      .date-label {
-        width: 100%;
-      }
+    .date-label {
+      width: 100%;
+    }
 
-      .match-button {
+    .match-button {
 
-        margin-left: 0%;
+      margin-left: 0%;
+  
+      margin-top:10px;
+  
+    }
+
+    .button-container {
+      margin-left: 4%;
+    }
     
-        margin-top:10px;
-    
-      }
+    .match-pfp {
+      width: 64px;
+      height: 64px;
 
-      .button-container {
-        margin-left: 4%;
-      }
+    }
     
 
   }

@@ -63,7 +63,7 @@ export default function Login() {
 
 
                         <div className="form-padding"></div>
-                        <Button type="submit" variant="contained" style={{backgroundColor: "#006400", width: "100px"}}>
+                        <Button type="submit" variant="contained" style={{backgroundColor: "#262525", width: "100px"}}>
                                 <label className='form-label' style={{cursor: "pointer"}}>Log In</label>
                         </Button>
                         </div>
