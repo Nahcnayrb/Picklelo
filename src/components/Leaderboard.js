@@ -84,7 +84,7 @@ export default function Leaderboard() {
         return <Navigate to={'/players/' + clickedPlayerUsername}/> 
     } else return (
     <div className='leaderboard-container'>
-        <h2 style={{color: "white", fontWeight: "1000", fontSize: "30px", paddingTop: "50px",paddingBottom: "5px", letterSpacing: "1px"}}>Season 1 Leaderboard</h2>
+        <h2 style={{color: "white", fontWeight: "1000", fontSize: "35px", paddingTop: "50px",paddingBottom: "5px", letterSpacing: "1px"}}>Leaderboard</h2>
         <label style={{color: "white", fontWeight: "700", fontSize: "14px"}}>Tip: Tap on a player to view their profile!</label>
 
         {topThreePlayers?

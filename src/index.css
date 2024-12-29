@@ -186,7 +186,7 @@ font-size: 22px;
   text-align: center;
   background-color: #98b83b;
   /* margin-top: 5%; */
-  margin-top: 1.5rem;
+  margin-top: 1.52rem;
   /* filter: brightness(90%); */
   padding-bottom: 0rem;
 
@@ -200,7 +200,7 @@ font-size: 22px;
   display: inline-block;
   text-align: center;
   background-color: #98b83b;
-  margin-top: 2.75rem;
+  margin-top: 2.77rem;
   /* margin-top: 5%; */
   /* filter: brightness(80%); */
 
@@ -217,8 +217,10 @@ font-size: 22px;
           display: "block" */
   border-radius: 50%;
   /* display: block; */
-  width: 128px;
-  height: 128px;
+  max-width: 128px;
+  max-height: 128px;
+  min-width: 128px;
+  min-height: 128px;
 }
 
 .elo-container {
@@ -271,8 +273,10 @@ font-size: 22px;
 .rest-pfp {
   margin-left: 1rem;
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
+  max-width: 100px;
+  max-height: 100px;
+  min-width: 100px;
+  min-height: 100px;
 }
 
 .rest-name-container {
@@ -366,8 +370,10 @@ h4 {
   }
 
   .pfp {
-    width: 90px;
-    height: 90px;
+    max-width: 90px;
+    max-height: 90px;
+    min-width: 90px;
+    min-height: 90px;
   }
 
   .ranking-container {
@@ -382,8 +388,10 @@ h4 {
   .rest-pfp {
     margin-left: 1rem;
     border-radius: 50%;
-    width: 64px;
-    height: 64px;
+    max-width: 64px;
+    max-height: 64px;
+    min-width: 64px;
+    min-height: 64px;
   }
 
 }
