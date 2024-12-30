@@ -39,7 +39,7 @@ export default function UserProfile(props) {
         } else {
             // case has pfp
             setPfpIsDefault(false)
-            return process.env.REACT_APP_BLOB_STORAGE_URL + player.username;
+            return process.env.REACT_APP_BLOB_STORAGE_URL + player.username + "?m=" + Date.now().toString();
         }
     }
 
