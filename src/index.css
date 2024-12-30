@@ -175,6 +175,7 @@ font-size: 22px;
   text-align: center;
   background-color: #afcf51;
   padding-bottom: 1rem;
+  margin-top: 0.01rem;
   /* padding-bottom: 26px; */
   /* filter: brightness(110%); */
 }

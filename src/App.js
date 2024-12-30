@@ -39,6 +39,23 @@ function App() {
         }
     )
 
+
+
+
+  }
+
+  async function fetchPlayerMap() {
+    console.log("fetching player map")
+
+    const res = await axios.get("/players")
+
+    let map = new Map();
+    res.data.forEach((player) => {
+        map.set(player.username, player)
+    })
+    return map
+
+
   }
 
   useEffect(()=> {
@@ -63,7 +80,7 @@ function App() {
                 <Route exact path='/' element={<Home/>}/>
                 <Route exact path='/login' element={<Login/>}/>
                 <Route exact path='/register' element={<Register/>}/>
-                <Route exact path ='/players/:username' element={<Profile/>}/>
+                <Route exact path ='/players/:username' element={<Profile fetchPlayerMap={fetchPlayerMap}/>}/>
                 <Route exact path ='/leaderboard' element={<Leaderboard/>}/>
                 <Route exact path ='/tournaments' element={<TournamentDashboard/>}/>
                 <Route exact path = '/duels' element={<DuelsDashboard isLoggedIn={isLoggedIn} user={user}/>}/>
