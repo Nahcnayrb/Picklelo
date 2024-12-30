@@ -9,6 +9,7 @@ export default function Profile(props) {
     const { username } = useParams()
     const [playerMap, setPlayerMap] = useState()
     const [duels, setDuels] = useState([])
+    const [completedDuels, setCompletedDuels] = useState([])
 
     // need player map to map usernames to actual names
     // 
@@ -27,6 +28,26 @@ export default function Profile(props) {
         const duels = res.data;
         duels.sort((a,b) => (Date.parse(b.date) - Date.parse(a.date)));
         setDuels(res.data)
+        const completed = duels.filter((duel) => (duel.higherEloScore) && (duel.lowerEloScore))
+        setCompletedDuels(completed)
+
+    }
+
+    function getPlayerRank() {
+
+        const players = Array.from(playerMap.values());
+
+        players.sort((a,b) => b.elo - a.elo);
+        
+        for (let i = 0; i < players.length; i++) {
+            const currPlayer = players[i];
+            if (currPlayer.username === username) {
+                // found user
+                return i+1;
+            }
+        }
+        // will never get here, but just adding it for safety
+        return 0;
 
     }
 
@@ -78,6 +99,29 @@ export default function Profile(props) {
 
     }
 
+    function calculateWinRate(duels) {
+
+        // count num games won
+        const numGames = duels.length;
+        if (numGames == 0) {
+            return "N/A"
+        } else {
+            // case not 0
+            let gamesWon = 0;
+            duels.forEach((duel) => {
+                if (userIsWinner(duel, username)) {
+                    gamesWon++;
+                }
+            })
+
+            const winRate = parseFloat((100*gamesWon / numGames).toFixed(1)).toString();
+            return winRate + "%";
+        }
+
+        
+
+    }
+
     function getContainer(duel, username) {
         // if match is still in progress, use in-progress container
 
@@ -98,17 +142,34 @@ export default function Profile(props) {
 
         fetchData();
         fetchDuels();
+        window.scrollTo(0,0);
 
     },[])
 
     return (
         <div className="duels-dashboard-container">
             <div className="profile-header-container">
-                <h1 style={{textAlign: "center", color: "white"}}>{username}</h1>
+                {playerMap?<h2 style={{textAlign: "center", color: "white", fontSize: "45px"}}>{playerMap.get(username).name}</h2>:""}
+                <div className="profile-header-details-container">
+                    {playerMap?<img src={getPfp(playerMap.get(username))} className='match-history-pfp' style={{marginTop: "0.75rem"}}></img>:""}
+                    <div className="stats-container">
+                        {/* <h2 style={{color: "white", fontSize: "30px"}}>Rank: 5</h2> */}
+                        {playerMap?<h3 style={{color: "white", fontSize: "30px"}}>Rank: {getPlayerRank()}</h3>:""}
+                        {playerMap?<h3 style={{color: "white", fontSize: "30px"}}>Elo: {playerMap.get(username).elo}</h3>:""}
+                        {duels?<h3 style={{color: "white", fontSize: "15px"}}>Total Games Played: {completedDuels.length}</h3>:""}
+                        {duels?<h3 style={{color: "white", fontSize: "15px"}}>Win Rate: {calculateWinRate(completedDuels)}</h3>:""}
+                    </div>
+                    
+
+
+                </div>
             </div>
             <div className="match-history-container">
+                <div className="recent-matches-header">
+                    <h2 className="recent-matches-label">Recent Matches </h2>
+                </div>
                 <div className="matches-container">
-                    {duels ? duels.map((duel, i) => (
+                    {duels && duels.length !== 0 ? duels.map((duel, i) => (
                         <div className={getContainer(duel, username)} key={i}>
                         <div className="new-match-details-container">
 
