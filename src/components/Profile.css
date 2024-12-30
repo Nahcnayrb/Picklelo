@@ -21,6 +21,19 @@
     /* background-color: rgb(64, 64, 180); */
     background-color: #262525;
     text-align: center;
+    padding-top: 1.5rem;
+    padding-bottom:1.5rem;
+  }
+
+  .profile-header-details-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+
+
   }
 
 .new-match-details-container {
@@ -76,10 +89,54 @@ border-radius: 10px;
     align-items: center;
 }
 
+.match-history-pfp {
+
+  border-radius: 20%;
+  min-width: 224px;
+  min-height: 224px;
+  max-width: 224px;
+  max-height: 224px;
+  margin-bottom: 1rem;
+  margin-right: 2.5rem;
+  margin-left: 1.5rem;
+  
+}
+
+.recent-matches-header {
+  /* background-color: #ffffff; */
+  background-color: #262525;
+  border-radius: 15px;
+  /* padding: 10px 10px 10px 10px; */
+  /* padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem; */
+  margin-bottom: -2.5rem;
+  margin-top: 1rem;
+}
+
+.recent-matches-label {
+  text-align: left;
+  font-size: 20px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  color:white;
+}
+
 
 @media (max-width: 1200px) {
     .match-history-container {
         width: 90%;
+    }
+
+    .match-history-pfp {
+      min-width: 150px;
+      min-height: 150px;
+      max-width: 150px;
+      max-height: 150px;
+
     }
 
 

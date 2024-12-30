@@ -45,8 +45,6 @@ function App() {
   }
 
   async function fetchPlayerMap() {
-    console.log("fetching player map")
-
     const res = await axios.get("/players")
 
     let map = new Map();
