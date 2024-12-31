@@ -11,6 +11,10 @@ import defaultpfp from "./0617.png"
 import DuelsScoreboard from "./DuelsScoreboard";
 import DeleteDuelModal from "./DeleteDuelModal";
 import { Navigate } from "react-router-dom";
+import VideocamIcon from '@mui/icons-material/Videocam';
+import EditIcon from '@mui/icons-material/Edit';
+import WatchModal from "./WatchModal";
+import EditModal from "./EditModal";
 
 export default function DuelsDashboard(props) {
 
@@ -21,7 +25,9 @@ export default function DuelsDashboard(props) {
     const [showScoreboard, setShowScoreboard] = useState(false)
     const [selectedDuel, setSelectedDuel] = useState("")
     const [showDeleteModal, setShowDeleteModal] = useState(false)
-
+    const [showWatchModal, setShowWatchModal] = useState(false)
+    const [duelToBeWatched ,setDuelToBeWatched] = useState()
+    const [showEditModal, setShowEditModal] = useState()
     const [redirectToHome, setRedirectToHome] = useState(false)
     let fetchedDataSuccessfully = false
 
@@ -127,6 +133,16 @@ export default function DuelsDashboard(props) {
         setShowDeleteModal(true)
     }
 
+    function handleClickWatch(duel) {
+        setShowWatchModal(true)
+        setDuelToBeWatched(duel)
+    }
+    
+    function handleClickEdit(duel) {
+        setShowEditModal(true)
+        setDuelToBeWatched(duel)
+    }
+
     if (redirectToHome) {
         return <Navigate to={'/'}/>
 
@@ -164,6 +180,17 @@ export default function DuelsDashboard(props) {
                 setShow={setShowDeleteModal}
                 fetchData={fetchData}
             />
+            <WatchModal
+                duel={duelToBeWatched}
+                playerMap={playerMap}
+                show={showWatchModal}
+                setShow={setShowWatchModal}
+            />
+            <EditModal
+                duel={duelToBeWatched}
+                show={showEditModal}
+                setShow={setShowEditModal}
+            />
             </>:""}
 
             <div className="recent-duels-container">
@@ -174,6 +201,11 @@ export default function DuelsDashboard(props) {
                             <div className="match-details-container">
 
                                 <div className="match-details-header">
+                                {duel.videoUrl?
+                                <Button className="match-button" style={{width: "5rem", marginBottom: "0.75rem", marginLeft: "0.5rem"}} variant="dark" onClick={()=>{handleClickWatch(duel)}}>
+                                    <VideocamIcon fontSize='medium'/>
+                                </Button>
+                                :""}
                                     <label className="date-label">{duel.date.substring(0,10)}</label>
 
                                     <label className="status-label">{(duel.higherEloScore && duel.lowerEloScore)?"COMPLETED":"IN PROGRESS"}</label>
@@ -206,9 +238,21 @@ export default function DuelsDashboard(props) {
 
                             <div className="button-container">
 
+                                {(duel.higherEloScore && duel.lowerEloScore)
+                                ?
+                                <Button className="match-button" variant="dark" onClick={()=>{handleClickEdit(duel)}}>
+                                    <EditIcon fontSize='medium'/>
+                                </Button>
+                                :""}
+
+                                {(!props.isLoggedIn || (duel.higherEloScore && duel.lowerEloScore))
+                                ?
+                                ""
+                                :
                                 <Button className="match-button" disabled={!props.isLoggedIn || (duel.higherEloScore && duel.lowerEloScore)} variant="dark" onClick={()=>{handleClickScoreboard(duel)}}>
                                     <ScoreboardIcon fontSize='medium'/>
                                 </Button>
+                                }
                                 <div className="vertical-padding"></div>
 
                                 <Button className="match-button" disabled={!props.isLoggedIn} variant="dark" onClick={()=>{handleClickDelete(duel)}}>

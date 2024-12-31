@@ -337,6 +337,11 @@ h4 {
 
 }
 
+.video-player {
+  width: 65rem;
+  height: 30rem;
+}
+
 
 
 @media (max-width: 1200px) {
@@ -393,6 +398,11 @@ h4 {
     max-height: 64px;
     min-width: 64px;
     min-height: 64px;
+  }
+
+  .video-player {
+    width: 22rem;
+    height: 15rem;
   }
 
 }

@@ -78,7 +78,7 @@ function App() {
                 <Route exact path='/' element={<Home/>}/>
                 <Route exact path='/login' element={<Login/>}/>
                 <Route exact path='/register' element={<Register/>}/>
-                <Route exact path ='/players/:username' element={<Profile fetchPlayerMap={fetchPlayerMap}/>}/>
+                <Route exact path ='/players/:username' element={<Profile fetchPlayerMap={fetchPlayerMap} />}/>
                 <Route exact path ='/leaderboard' element={<Leaderboard/>}/>
                 <Route exact path ='/tournaments' element={<TournamentDashboard/>}/>
                 <Route exact path = '/duels' element={<DuelsDashboard isLoggedIn={isLoggedIn} user={user}/>}/>

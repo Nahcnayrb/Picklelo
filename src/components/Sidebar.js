@@ -58,6 +58,11 @@ export default props => {
       {props.user?<label style={{fontSize: "20px", color: "white"}}>{props.user.name}</label>:""}
 
 
+      {props.isLoggedIn && props.user?
+      <a className="menu-item" href={"#/players/" + props.user.username} onClick={handleIsOpen}>
+        My Profile
+      </a>
+      :""}
       {props.isLoggedIn?
       <a className="menu-item" href="#/settings" onClick={handleIsOpen}>
         Settings
