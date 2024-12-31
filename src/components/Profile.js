@@ -4,12 +4,17 @@ import axios from 'axios';
 import defaultpfp from "./0617.png"
 import { Divider } from "@mui/material";
 import "./Profile.css"
+import Button from 'react-bootstrap/Button';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import WatchModal from './WatchModal';
 
 export default function Profile(props) {
     const { username } = useParams()
     const [playerMap, setPlayerMap] = useState()
     const [duels, setDuels] = useState([])
     const [completedDuels, setCompletedDuels] = useState([])
+    const [showWatchModal, setShowWatchModal] = useState(false)
+    const [duelToBeWatched ,setDuelToBeWatched] = useState()
 
     // need player map to map usernames to actual names
     // 
@@ -23,7 +28,6 @@ export default function Profile(props) {
 
     // only get duels relating to a player
     async function fetchDuels() {
-
         const res = await axios.get('/duels/' + username);
         const duels = res.data;
         duels.sort((a,b) => (Date.parse(b.date) - Date.parse(a.date)));
@@ -49,6 +53,11 @@ export default function Profile(props) {
         // will never get here, but just adding it for safety
         return 0;
 
+    }
+
+    function handleClickWatch(duel) {
+        setShowWatchModal(true)
+        setDuelToBeWatched(duel)
     }
 
     function getPfp(player) {
@@ -139,12 +148,14 @@ export default function Profile(props) {
     }
 
     useEffect(()=> {
-
-        fetchData();
-        fetchDuels();
+        
+        if (props) {
+            fetchData();
+            fetchDuels();
+        }
         window.scrollTo(0,0);
 
-    },[])
+    },[props, username])
 
     return (
         <div className="duels-dashboard-container">
@@ -158,7 +169,14 @@ export default function Profile(props) {
                         {playerMap?<h3 style={{color: "white", fontSize: "30px"}}>Elo: {playerMap.get(username).elo}</h3>:""}
                         {duels?<h3 style={{color: "white", fontSize: "15px"}}>Total Games Played: {completedDuels.length}</h3>:""}
                         {duels?<h3 style={{color: "white", fontSize: "15px"}}>Win Rate: {calculateWinRate(completedDuels)}</h3>:""}
+
                     </div>
+                    <WatchModal
+                        duel={duelToBeWatched}
+                        playerMap={playerMap}
+                        show={showWatchModal}
+                        setShow={setShowWatchModal}
+                    />
                     
 
 
@@ -166,7 +184,9 @@ export default function Profile(props) {
             </div>
             <div className="match-history-container">
                 <div className="recent-matches-header">
-                    <h2 className="recent-matches-label">Recent Matches </h2>
+                    <h2 className="recent-matches-label" >Recent Matches </h2>
+                    {/* <Divider className="vertical-divider" orientation="vertical" flexItem/>
+                    <h2 className="recent-matches-label">Highlights </h2> */}
                 </div>
                 <div className="matches-container">
                     {duels && duels.length !== 0 ? duels.map((duel, i) => (
@@ -174,6 +194,11 @@ export default function Profile(props) {
                         <div className="new-match-details-container">
 
                             <div className="match-details-header">
+                                {duel.videoUrl?
+                                <Button className="match-button" style={{width: "5rem", marginBottom: "0.75rem", marginLeft: "0.5rem"}} variant="dark" onClick={()=>{handleClickWatch(duel)}}>
+                                    <VideocamIcon fontSize='medium'/>
+                                </Button>
+                                :""}
                                 <label className="date-label">{duel.date.substring(0,10)}</label>
 
                                 <label className="status-label">{(duel.higherEloScore && duel.lowerEloScore)?
