@@ -134,6 +134,7 @@ export default function DuelsDashboard(props) {
     }
 
     function handleClickWatch(duel) {
+        console.log("clicked watch")
         setShowWatchModal(true)
         setDuelToBeWatched(duel)
     }
@@ -180,18 +181,18 @@ export default function DuelsDashboard(props) {
                 setShow={setShowDeleteModal}
                 fetchData={fetchData}
             />
-            <WatchModal
-                duel={duelToBeWatched}
-                playerMap={playerMap}
-                show={showWatchModal}
-                setShow={setShowWatchModal}
-            />
             <EditModal
                 duel={duelToBeWatched}
                 show={showEditModal}
                 setShow={setShowEditModal}
             />
             </>:""}
+            <WatchModal
+                duel={duelToBeWatched}
+                playerMap={playerMap}
+                show={showWatchModal}
+                setShow={setShowWatchModal}
+            />
 
             <div className="recent-duels-container">
                 <div className="matches-container">
@@ -240,7 +241,7 @@ export default function DuelsDashboard(props) {
 
                                 {(duel.higherEloScore && duel.lowerEloScore)
                                 ?
-                                <Button className="match-button" variant="dark" onClick={()=>{handleClickEdit(duel)}}>
+                                <Button className="match-button" disabled={!props.isLoggedIn} variant="dark" onClick={()=>{handleClickEdit(duel)}}>
                                     <EditIcon fontSize='medium'/>
                                 </Button>
                                 :""}
