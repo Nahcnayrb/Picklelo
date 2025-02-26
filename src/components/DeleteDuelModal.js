@@ -149,15 +149,23 @@ export default function DeleteDuelModal(props) {
 
             <Modal.Header className='modal-header'closeButton>
             <Modal.Title >
-                
-                <h3>{lowerEloName?higherEloName + " vs. " + lowerEloName:""}</h3>
+            {isDoublesMatch ? 
+            <h3>{player1Name? player1Name + " & " + player2Name + " vs. " + player3Name + " & " + player4Name:""}</h3>
+            :
+            <h3>{player1Name?player1Name + " vs. " + player2Name:""}</h3>}
+            
             </Modal.Title>
             </Modal.Header>
             <Modal.Body>
 
-            {lowerEloName?<label style={{ fontSize: "20px"}}>Are you sure you want to delete the duel between {lowerEloName} and {higherEloName}?
-                 </label>:""}
-
+            {isDoublesMatch ? 
+            player1Name?<label style={{ fontSize: "20px"}}>Are you sure you want to delete the duel between {player1Name} & {player2Name} vs. {player3Name} & {player4Name}?
+            </label>:""
+            :
+            
+            player1Name?<label style={{ fontSize: "20px"}}>Are you sure you want to delete the duel between {player1Name} and {player2Name}?
+            </label>:""
+            }
 
             <label style={{marginTop: "20px", fontSize: "20px", fontWeight: "600"}}>If the duel is completed, any ELO changes resulted from the duel will be REVERTED.</label>
 
