@@ -53,7 +53,7 @@ export default function Leaderboard() {
     }
 
     function getPfp(player) {
-        if (!player.hasPfp) {
+        if (!player.hasPfp || !process.env.REACT_APP_BLOB_STORAGE_URL) {
             return defaultpfp;
         } else {
             // case has pfp

@@ -7,6 +7,11 @@ export default function DeleteDuelModal(props) {
 
     const [lowerEloName, setLowerEloName] = useState("")
     const [higherEloName, setHigherEloName] = useState("")
+    const [player1Name, setPlayer1Name] = useState("");
+    const [player2Name, setPlayer2Name] = useState("");
+    const [player3Name, setPlayer3Name] = useState("");
+    const [player4Name, setPlayer4Name] = useState("");
+    const [isDoublesMatch, setIsDoublesMatch] = useState(false);
 
     useEffect(()=>{
 
@@ -17,9 +22,18 @@ export default function DeleteDuelModal(props) {
             let lowerEloUsername = props.duel.lowerEloUsername
             let higherEloUsername = props.duel.higherEloUsername
 
+            const isDoubles = props.duel.isDoublesMatch;
+            setIsDoublesMatch(isDoubles);
 
-            setLowerEloName(props.playerMap.get(lowerEloUsername).name)
-            setHigherEloName(props.playerMap.get(higherEloUsername).name)
+            if (isDoubles) {
+                setPlayer1Name(props.playerMap.get(lowerEloUsername[0]).name)
+                setPlayer2Name(props.playerMap.get(lowerEloUsername[1]).name)
+                setPlayer3Name((props.playerMap.get(higherEloUsername[0]).name))
+                setPlayer4Name((props.playerMap.get(higherEloUsername[1]).name))
+            } else {
+                setPlayer1Name(props.playerMap.get(lowerEloUsername[0]).name)
+                setPlayer2Name((props.playerMap.get(higherEloUsername[0]).name))
+            }
         }
 
     },[props])
@@ -83,24 +97,45 @@ export default function DeleteDuelModal(props) {
 
         let lowerEloUsername = props.duel.lowerEloUsername
         let higherEloUsername = props.duel.higherEloUsername
-        
-        let originalLowerElo = props.playerMap.get(lowerEloUsername).elo
-        let originalHigherElo = props.playerMap.get(higherEloUsername).elo
 
-        let newLowerElo = originalLowerElo + lowerEloReversion
-        let newHigherElo = originalHigherElo + higherEloReversion
+        let promises = [];
+        if (isDoublesMatch) {
 
-        let lowerEloData = {
-            elo: Math.floor(newLowerElo)
+            const player1Elo = { elo: Math.floor(props.playerMap.get(lowerEloUsername[0]).elo + lowerEloReversion) };
+            const player2Elo = { elo: Math.floor(props.playerMap.get(lowerEloUsername[1]).elo + lowerEloReversion) };
+
+            const player3Elo = { elo: Math.floor(props.playerMap.get(higherEloUsername[0]).elo + higherEloReversion) };
+            const player4Elo = { elo: Math.floor(props.playerMap.get(higherEloUsername[1]).elo + higherEloReversion) };
+
+
+            promises.push(axios.put("/players/" + lowerEloUsername[0], player1Elo));
+            promises.push(axios.put("/players/" + lowerEloUsername[1], player2Elo));
+            promises.push(axios.put("/players/" + higherEloUsername[0], player3Elo));
+            promises.push(axios.put("/players/" + higherEloUsername[1], player4Elo));
+
+        } else {
+            
+            let originalLowerElo = props.playerMap.get(lowerEloUsername[0]).elo
+            let originalHigherElo = props.playerMap.get(higherEloUsername[0]).elo
+
+            let newLowerElo = originalLowerElo + lowerEloReversion
+            let newHigherElo = originalHigherElo + higherEloReversion
+
+            let lowerEloData = {
+                elo: Math.floor(newLowerElo)
+            }
+
+            let higherEloData = {
+                elo: Math.floor(newHigherElo)
+            }
+
+            // if game mode is doubles, we need to apply elo changes to all 4 players
+            promises.push(axios.put("/players/" + lowerEloUsername[0], lowerEloData));
+            promises.push(axios.put("/players/" + higherEloUsername[0], higherEloData));
         }
 
-        let higherEloData = {
-            elo: Math.floor(newHigherElo)
-        }
-
-        await axios.put("/players/" + lowerEloUsername, lowerEloData)
-        await axios.put("/players/" + higherEloUsername, higherEloData)
-        console.log("updated players elo")
+        await Promise.all(promises);
+    
     }
 
     return (

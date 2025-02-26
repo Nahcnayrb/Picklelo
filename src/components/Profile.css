@@ -124,6 +124,10 @@ border-radius: 10px;
   color:white;
 }
 
+.recent-matches-header-container {
+  width: 45%;
+}
+
 
 @media (max-width: 1200px) {
     .match-history-container {

@@ -48,17 +48,16 @@ export default function WatchModal(props) {
             <Modal.Header className='modal-header'closeButton>
             <Modal.Title >
                 {duel?
-                <h3>{playerMap.get(duel.lowerEloUsername).name + " vs. " + playerMap.get(duel.higherEloUsername).name}</h3>    
+                <h3>{playerMap.get(duel.lowerEloUsername[0]).name + " vs. " + playerMap.get(duel.higherEloUsername[0]).name}</h3>    
                 :""}
             </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {videoId?
                 <iframe className="video-player" allow="fullscreen;"
-                src={"https://www.youtube.com/embed/" + videoId +  "?controls=1"}>
+                src={"https://www.youtube.com/embed/" + videoId +  "?controls=1&autoplay=1"}>
                 </iframe>
                 :""}
-
             </Modal.Body>
 
             <Modal.Footer>

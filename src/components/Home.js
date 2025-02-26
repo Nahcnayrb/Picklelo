@@ -96,10 +96,9 @@ export default function Home() {
                 :
                 <div>
                     
-                    <h4>Server is currently waking up from hibernation :/</h4>
-                    <h4> Picklelo should be ready in: ~1 min.</h4>
-                    <h4>Sorry for the inconvenience!</h4>
-                    <h6 style={{paddingBottom: "3rem"}}>Picklelo will automatically refresh once the server is ready.</h6>
+                    <h4>Server is waking up...</h4>
+                    <h4> Picklelo should be ready in ~1 min.</h4>
+                    <h6 style={{paddingBottom: "3rem"}}>This page will automatically refresh once the server is ready.</h6>
                     <CircularProgress color='inherit' />
                     
                 </div>
