@@ -326,6 +326,13 @@ font-size: 22px;
   width: 100%;
 }
 
+.modal-big-label {
+  width: 100%;
+  font-size: 30px;
+  font-weight: 600;
+  padding-bottom: 20px;
+}
+
 .elo-input {
   text-align: center;
   padding-right: 15px;

@@ -33,7 +33,7 @@ export default function UserProfile(props) {
     )
 
     function getPfp(player) {
-        if (!player.hasPfp) {
+        if (!player.hasPfp || !process.env.REACT_APP_BLOB_STORAGE_URL) {
             setPfpIsDefault(true)
             return defaultpfp;
         } else {

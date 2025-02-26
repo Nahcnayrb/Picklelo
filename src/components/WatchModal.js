@@ -6,6 +6,7 @@ export default function WatchModal(props) {
     const [playerMap, setPlayerMap] = useState()
     const [duel, setDuel] = useState()
     const [videoId, setVideoId] = useState("")
+    const [isDoublesMatch, setIsDoublesMatch] = useState(false);
     
 
     useEffect(()=>{
@@ -14,6 +15,7 @@ export default function WatchModal(props) {
             setDuel(props.duel)
             const videoUrl = props.duel.videoUrl
             setVideoId(getYoutubeVideoId(videoUrl))
+            setIsDoublesMatch(props.duel.isDoublesMatch)
         }
 
     },[props]);
@@ -47,18 +49,23 @@ export default function WatchModal(props) {
 
             <Modal.Header className='modal-header'closeButton>
             <Modal.Title >
-                {duel?
-                <h3>{playerMap.get(duel.lowerEloUsername).name + " vs. " + playerMap.get(duel.higherEloUsername).name}</h3>    
-                :""}
+                {isDoublesMatch ?
+                    duel?
+                    <h3>{playerMap.get(duel.lowerEloUsername[0]).name + " & " + playerMap.get(duel.lowerEloUsername[1]).name + " vs. " + playerMap.get(duel.higherEloUsername[0]).name + " & " + playerMap.get(duel.higherEloUsername[1]).name}</h3>    
+                    :""
+                    :
+                    duel?
+                    <h3>{playerMap.get(duel.lowerEloUsername[0]).name + " vs. " + playerMap.get(duel.higherEloUsername[0]).name}</h3>    
+                    :""
+                }
             </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {videoId?
                 <iframe className="video-player" allow="fullscreen;"
-                src={"https://www.youtube.com/embed/" + videoId +  "?controls=1"}>
+                src={"https://www.youtube.com/embed/" + videoId +  "?controls=1&autoplay=1"}>
                 </iframe>
                 :""}
-
             </Modal.Body>
 
             <Modal.Footer>

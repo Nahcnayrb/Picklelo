@@ -88,7 +88,7 @@ export default function DuelsDashboard(props) {
     }
 
     function getPfp(player) {
-        if (!player.hasPfp) {
+        if (!player.hasPfp || !process.env.REACT_APP_BLOB_STORAGE_URL) {
             return defaultpfp;
         } else {
             // case has pfp
@@ -98,13 +98,13 @@ export default function DuelsDashboard(props) {
     }
 
     function calculateEloChange(duel, username) {
-        if (!duel.lowerEloScore || !duel.higherEloScore) {
+        if (duel.lowerEloScore === undefined || duel.higherEloScore === undefined ) {
             return ""
         } else {
             // we have scores for both players
             if (duel.lowerEloScore > duel.higherEloScore) {
                 // lower elo player won
-                if (username == duel.lowerEloUsername) {
+                if (username == duel.lowerEloUsername[0]) {
                     return " (" + "+" + duel.lowerEloGainPotential + ")"
                 } else {
                     // case other player
@@ -112,7 +112,7 @@ export default function DuelsDashboard(props) {
                 }
             } else {
                 // high elo player won
-                if (username == duel.higherEloUsername) {
+                if (username == duel.higherEloUsername[0]) {
                     return " (" + "+" + duel.higherEloGainPotential + ")"
                 } else {
                     // case other player
@@ -198,7 +198,7 @@ export default function DuelsDashboard(props) {
                 <div className="matches-container">
 
                 {duels ? duels.map((duel, i) => (
-                        <div className={(duel.higherEloScore && duel.lowerEloScore)?"completed-match-container":"in-progress-match-container"} key={i}>
+                        <div className={(duel.higherEloScore !== undefined && duel.lowerEloScore !== undefined)?"completed-match-container":"in-progress-match-container"} key={i}>
                             <div className="match-details-container">
 
                                 <div className="match-details-header">
@@ -209,28 +209,56 @@ export default function DuelsDashboard(props) {
                                 :""}
                                     <label className="date-label">{duel.date.substring(0,10)}</label>
 
-                                    <label className="status-label">{(duel.higherEloScore && duel.lowerEloScore)?"COMPLETED":"IN PROGRESS"}</label>
+                                    <label className="status-label">{(duel.higherEloScore !== undefined && duel.lowerEloScore !== undefined)?"COMPLETED":"IN PROGRESS"}</label>
 
                                 </div>
                                 <Divider className="horizontal-divider" orientation="horizontal"/>
 
-                                <div className="team-container">
-                                    {playerMap?<img src={getPfp(playerMap.get(duel.higherEloUsername))} className='match-pfp' style={{marginTop: "0.75rem"}}></img>:""}
-                                    {playerMap?<label className="match-label">{playerMap.get(duel.higherEloUsername).name + calculateEloChange(duel, duel.higherEloUsername)}</label>:""}
-                                    <Divider className="vertical-divider" orientation="vertical" flexItem/>
-                                    <div className="score-container">
-                                        <label className="score-label">{duel.higherEloScore}</label>
-                                    </div>
-                                </div>
-                                <Divider className="horizontal-divider" orientation="horizontal"/>
-                                <div className="team-container">
-                                    {playerMap?<img src={getPfp(playerMap.get(duel.lowerEloUsername))} className='match-pfp' style={{marginTop: "0.75rem"}}></img>:""}
-                                    {playerMap?<label className="match-label">{playerMap.get(duel.lowerEloUsername).name + calculateEloChange(duel, duel.lowerEloUsername)}</label>:""}
-                                    <Divider className="vertical-divider" orientation="vertical" flexItem/>
-                                    <div className="score-container">
-                                        <label className="score-label">{duel.lowerEloScore}</label>
-                                    </div>
-                                </div>
+                                {duel.isDoublesMatch ?
+                                    <>
+                                        <div className="team-container">
+                                            {playerMap?<img src={getPfp(playerMap.get(duel.lowerEloUsername[0]))} className='doubles-match-pfp' style={{marginTop: "0.75rem"}}></img>:""}
+                                            {playerMap?<img src={getPfp(playerMap.get(duel.lowerEloUsername[1]))} className='doubles-match-pfp' style={{marginTop: "0.75rem", marginLeft: "0.5rem"}}></img>:""}
+                                            {playerMap?<label className="match-label">{playerMap.get(duel.lowerEloUsername[0]).name + " & " + playerMap.get(duel.lowerEloUsername[1]).name + calculateEloChange(duel, duel.lowerEloUsername[0])}</label>:""}
+                                            <Divider className="vertical-divider" orientation="vertical" flexItem/>
+                                            <div className="score-container">
+                                                <label className="score-label">{duel.lowerEloScore}</label>
+                                            </div>
+                                        </div>
+                                        <Divider className="horizontal-divider" orientation="horizontal"/>
+                                        <div className="team-container">
+                                            {playerMap?<img src={getPfp(playerMap.get(duel.higherEloUsername[0]))} className='doubles-match-pfp' style={{marginTop: "0.75rem"}}></img>:""}
+                                            {playerMap?<img src={getPfp(playerMap.get(duel.higherEloUsername[1]))} className='doubles-match-pfp' style={{marginTop: "0.75rem", marginLeft: "0.5rem"}}></img>:""}
+                                            {playerMap?<label className="match-label">{playerMap.get(duel.higherEloUsername[0]).name + " & " + playerMap.get(duel.higherEloUsername[1]).name + calculateEloChange(duel, duel.higherEloUsername[0])}</label>:""}
+                                            <Divider className="vertical-divider" orientation="vertical" flexItem/>
+                                            <div className="score-container">
+                                                <label className="score-label">{duel.higherEloScore}</label>
+                                            </div>
+                                        </div>
+                                    </>
+                                :
+                                    <>
+                                        <div className="team-container">
+                                            {playerMap?<img src={getPfp(playerMap.get(duel.lowerEloUsername[0]))} className='match-pfp' style={{marginTop: "0.75rem"}}></img>:""}
+                                            {playerMap?<label className="match-label">{playerMap.get(duel.lowerEloUsername[0]).name + calculateEloChange(duel, duel.lowerEloUsername[0])}</label>:""}
+                                            <Divider className="vertical-divider" orientation="vertical" flexItem/>
+                                            <div className="score-container">
+                                                <label className="score-label">{duel.lowerEloScore}</label>
+                                            </div>
+                                        </div>
+                                        <Divider className="horizontal-divider" orientation="horizontal"/>
+                                        <div className="team-container">
+                                            {playerMap?<img src={getPfp(playerMap.get(duel.higherEloUsername[0]))} className='match-pfp' style={{marginTop: "0.75rem"}}></img>:""}
+                                            {playerMap?<label className="match-label">{playerMap.get(duel.higherEloUsername[0]).name + calculateEloChange(duel, duel.higherEloUsername[0])}</label>:""}
+                                            <Divider className="vertical-divider" orientation="vertical" flexItem/>
+                                            <div className="score-container">
+                                                <label className="score-label">{duel.higherEloScore}</label>
+                                            </div>
+                                        </div>
+                                    </>
+                                }
+
+
 
 
                             </div>
@@ -239,18 +267,18 @@ export default function DuelsDashboard(props) {
 
                             <div className="button-container">
 
-                                {(duel.higherEloScore && duel.lowerEloScore)
+                                {(duel.higherEloScore !== undefined && duel.lowerEloScore !== undefined)
                                 ?
                                 <Button className="match-button" disabled={!props.isLoggedIn} variant="dark" onClick={()=>{handleClickEdit(duel)}}>
                                     <EditIcon fontSize='medium'/>
                                 </Button>
                                 :""}
 
-                                {(!props.isLoggedIn || (duel.higherEloScore && duel.lowerEloScore))
+                                {(!props.isLoggedIn || (duel.higherEloScore !== undefined && duel.lowerEloScore !== undefined))
                                 ?
                                 ""
                                 :
-                                <Button className="match-button" disabled={!props.isLoggedIn || (duel.higherEloScore && duel.lowerEloScore)} variant="dark" onClick={()=>{handleClickScoreboard(duel)}}>
+                                <Button className="match-button" disabled={!props.isLoggedIn || (duel.higherEloScore !== undefined && duel.lowerEloScore !== undefined)} variant="dark" onClick={()=>{handleClickScoreboard(duel)}}>
                                     <ScoreboardIcon fontSize='medium'/>
                                 </Button>
                                 }
