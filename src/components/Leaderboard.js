@@ -5,45 +5,35 @@ import defaultpfp from "./0617.png"
 import { Navigate } from "react-router-dom";
 
 import { Divider } from '@mui/material';
-export default function Leaderboard() {
+export default function Leaderboard(props) {
 
     const [players, setPlayers] = useState()
     const [topThreePlayers, setTopThreePlayers] = useState()
     const [clickedPlayerUsername, setClickedPlayerUsername] = useState("")
     const [redirectToHome, setRedirectToHome] = useState(false)
-    let fetchedDataSuccessfully = false;
 
-    function fetchAllUsers() {
+    function processUsers() {
+
+        if (!props.playerMap) {
+            return;
+        }
+        let players = Array.from(props.playerMap.values());
+
         
-        axios.get("/players").then(
-            res => {
-                fetchedDataSuccessfully = true
-                setRedirectToHome(false)
-                let players = res.data
+        players.sort(function(a,b) {
+            return b.elo - a.elo
+        })
 
-                players.sort(function(a,b) {
-                    return b.elo - a.elo
-                })
+        let topThree = []
+        topThree.push(players.shift())
+        topThree.push(players.shift())
+        topThree.push(players.shift())
 
-
-                let topThree = []
-                topThree.push(players.shift())
-                topThree.push(players.shift())
-                topThree.push(players.shift())
-
-                setTopThreePlayers(topThree)
+        setTopThreePlayers(topThree)
 
 
-                setPlayers(players)
+        setPlayers(players)
 
-            }
-        ).catch (
-            err => {
-
-                console.log(err.response)
-
-            }
-        )
 
     }
 
@@ -65,18 +55,14 @@ export default function Leaderboard() {
 
     useEffect(()=> {
 
-        fetchAllUsers()
-        // sort player list based on elo descending
-        // for each player in player list
-        // make a list item of name, elo
-        setTimeout(()=> {
-            if (!fetchedDataSuccessfully) {
-                setRedirectToHome(true)
-            }
+        if (props && props.fetchStatus === 'failed') {
+            setRedirectToHome(true)
+        } else {
+            processUsers()
+        }
 
-        }, 1000)
-
-      },[])
+      },[props]
+    );
 
     if (redirectToHome) {
         return <Navigate to={'/'}/>

@@ -14,18 +14,8 @@ export default function Home() {
 
     const [numTries, setNumTries] = useState(0);
     function handleSelect(item) {
-        // console.log(record.item.id)
-        // setSelectedPlayer(record.item.id)
-        console.log(item.id)
         setSelectedPlayer(item.id)
-
     }
-
-    function getPlayers() {
-
-    }
-
-
 
     useEffect(()=> {
 
@@ -61,14 +51,13 @@ export default function Home() {
 
                 setTimeout(()=>{
                     setNumTries(numTries + 1);
-                },5000);
+                },3000);
                 console.log(err.response)
     
             }
         )
     
       },[numTries])
-    
     
 
     

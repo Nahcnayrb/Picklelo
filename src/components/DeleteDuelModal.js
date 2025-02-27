@@ -5,8 +5,6 @@ import axios from 'axios';
 
 export default function DeleteDuelModal(props) {
 
-    const [lowerEloName, setLowerEloName] = useState("")
-    const [higherEloName, setHigherEloName] = useState("")
     const [player1Name, setPlayer1Name] = useState("");
     const [player2Name, setPlayer2Name] = useState("");
     const [player3Name, setPlayer3Name] = useState("");

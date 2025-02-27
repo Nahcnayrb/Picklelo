@@ -29,63 +29,20 @@ export default function DuelsDashboard(props) {
     const [duelToBeWatched ,setDuelToBeWatched] = useState()
     const [showEditModal, setShowEditModal] = useState()
     const [redirectToHome, setRedirectToHome] = useState(false)
-    let fetchedDataSuccessfully = false
 
     useEffect(()=> {
 
-        fetchData()
-
-        setTimeout(()=> {
-            if (!fetchedDataSuccessfully) {
-                setRedirectToHome(true)
+        if (props && props.fetchStatus === 'failed') {
+            setRedirectToHome(true)
+        } else {
+            if (props.playerMap && props.duels) {
+                setDuels(props.duels);
+                setPlayerMap(props.playerMap);
+                setPlayersData(Array.from(props.playerMap.values()))
             }
+        }
 
-        },1000)
-    
-    },[])
-
-    async function fetchData() {
-
-        await axios.get("/players").then(
-            res => {
-                fetchedDataSuccessfully = true
-                setRedirectToHome(false)
-                setPlayersData(res.data)
-                let map = new Map();
-
-                res.data.forEach((player) => {
-                    map.set(player.username, player)
-                })
-
-                setPlayerMap(map)
-        
-        
-            }
-        ).catch(
-            err => {
-
-                console.log(err)
-        
-            }
-        )
-
-        await axios.get("/duels").then(
-            res => {
-
-                let duels = res.data
-                duels.sort(function(a,b){
-                    return new Date(b.date) - new Date(a.date)
-                })
-                setDuels(duels)
-        
-            }
-        ).catch(
-            err => {
-                console.log(err)
-            }
-        )
-
-    }
+    },[props])
 
     function getPfp(player) {
         if (!player.hasPfp || !process.env.REACT_APP_BLOB_STORAGE_URL) {
@@ -165,26 +122,27 @@ export default function DuelsDashboard(props) {
                 players={players} 
                 show={showModal} 
                 setShow={setShowModal} 
-                fetchData={fetchData}
+                fetchData={props.fetchData}
             />
             <DuelsScoreboard 
                 duel={selectedDuel}
                 show={showScoreboard} 
                 setShow={setShowScoreboard} 
                 playerMap={playerMap} 
-                fetchData={fetchData}
+                fetchData={props.fetchData}
              />
             <DeleteDuelModal 
                 duel={selectedDuel}
                 playerMap={playerMap}
                 show={showDeleteModal}
                 setShow={setShowDeleteModal}
-                fetchData={fetchData}
+                fetchData={props.fetchData}
             />
             <EditModal
                 duel={duelToBeWatched}
                 show={showEditModal}
                 setShow={setShowEditModal}
+                fetchData={props.fetchData}
             />
             </>:""}
             <WatchModal
@@ -198,7 +156,11 @@ export default function DuelsDashboard(props) {
                 <div className="matches-container">
 
                 {duels ? duels.map((duel, i) => (
-                        <div className={(duel.higherEloScore !== undefined && duel.lowerEloScore !== undefined)?"completed-match-container":"in-progress-match-container"} key={i}>
+                        <div className={(duel.higherEloScore !== undefined && duel.lowerEloScore !== undefined)?
+                        (duel.higherEloScore === 0 || duel.lowerEloScore === 0) ? "pickled-match-container" : "completed-match-container"
+                        :
+                        "in-progress-match-container"
+                        } key={i}>
                             <div className="match-details-container">
 
                                 <div className="match-details-header">
@@ -209,7 +171,11 @@ export default function DuelsDashboard(props) {
                                 :""}
                                     <label className="date-label">{duel.date.substring(0,10)}</label>
 
-                                    <label className="status-label">{(duel.higherEloScore !== undefined && duel.lowerEloScore !== undefined)?"COMPLETED":"IN PROGRESS"}</label>
+                                    <label className="status-label">{(duel.higherEloScore !== undefined && duel.lowerEloScore !== undefined)?
+                                    (duel.higherEloScore === 0 || duel.lowerEloScore === 0) ? "PICKLED" : "COMPLETED"
+                                    :
+                                    "IN PROGRESS"
+                                    }</label>
 
                                 </div>
                                 <Divider className="horizontal-divider" orientation="horizontal"/>
