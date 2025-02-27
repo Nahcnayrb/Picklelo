@@ -29,7 +29,6 @@ export default function EditModal(props) {
             return;
         }
 
-        console.log("clicked save")
         if ((currentVideoUrl) || ((currentVideoUrl === "") && (duel.videoUrl))) {
 
             let duelData = {
@@ -37,8 +36,7 @@ export default function EditModal(props) {
             }
     
             await axios.put("/duels/" + duel._id, duelData)
-            console.log("saved video url")
-            window.location.reload()
+            props.fetchData()
 
         }
         props.setShow(false)

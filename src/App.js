@@ -17,14 +17,13 @@ import UserProfile from './components/UserProfile';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState()
+  const [playerMap, setPlayerMap] = useState()
+  const [fetchStatus, setFetchStatus] = useState("pending")
+  const [duels, setDuels] = useState()
 
   const token = localStorage.getItem("picklelo-token")
 
   function fetchUserData() {
-    let data = {
-      token: token
-    }
-
     axios.get("/login/authenticate/" + token).then(
         res => {
             let user = res.data
@@ -39,9 +38,6 @@ function App() {
         }
     )
 
-
-
-
   }
 
   async function fetchPlayerMap() {
@@ -53,15 +49,46 @@ function App() {
     })
     return map
 
+  }
+
+  async function fetchDuels() {
+    const res = await axios.get("/duels")
+
+    let fetchedDuels = res.data
+    fetchedDuels.sort(function(a,b){
+        return new Date(b.date) - new Date(a.date)
+    })
+    return fetchedDuels
 
   }
 
-  useEffect(()=> {
+  async function fetchData() {
+
     if (token) {
       setIsLoggedIn(true)
       fetchUserData(token)
     }
 
+    try {
+      console.log('fetch player map')
+      const fetchedPlayerMap = await fetchPlayerMap()
+      const fetchedDuels = await fetchDuels()
+
+      setDuels(fetchedDuels)
+      setPlayerMap(fetchedPlayerMap)
+      console.log('fetch succeeded yay')
+      setFetchStatus("fetched")
+    } catch (err) {
+      console.log('app data fetch failed');
+      setFetchStatus("failed")
+      // this is to catch the errors that occur if api calls fail
+      // if they fail, just let them be since we will retry when the server is ready
+
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
   },[])
 
 
@@ -75,14 +102,14 @@ function App() {
             <div id="page-wrap">
             </div>
             <Routes>
-                <Route exact path='/' element={<Home/>}/>
+                <Route exact path='/' element={<Home fetchData={fetchData} playerMap={playerMap} fetchStatus={fetchStatus}/>}/>
                 <Route exact path='/login' element={<Login/>}/>
                 <Route exact path='/register' element={<Register/>}/>
-                <Route exact path ='/players/:username' element={<Profile fetchPlayerMap={fetchPlayerMap} />}/>
-                <Route exact path ='/leaderboard' element={<Leaderboard/>}/>
+                <Route exact path ='/players/:username' element={<Profile fetchPlayerMap={fetchPlayerMap} playerMap={playerMap} fetchStatus={fetchStatus}/>}/>
+                <Route exact path ='/leaderboard' element={<Leaderboard playerMap={playerMap} fetchStatus={fetchStatus} />}/>
                 <Route exact path ='/tournaments' element={<TournamentDashboard/>}/>
-                <Route exact path = '/duels' element={<DuelsDashboard isLoggedIn={isLoggedIn} user={user}/>}/>
-                <Route exact path = '/settings' element={<UserProfile user={user}/>}/>
+                <Route exact path = '/duels' element={<DuelsDashboard isLoggedIn={isLoggedIn} user={user} fetchPlayerMap={fetchPlayerMap} playerMap={playerMap} fetchStatus={fetchStatus} fetchData={fetchData} duels={duels}/>}/>
+                <Route exact path = '/settings' element={<UserProfile user={user} fetchPlayerMap={fetchPlayerMap}/>}/>
               </Routes>
           </div>
         

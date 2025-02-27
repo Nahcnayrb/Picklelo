@@ -22,11 +22,8 @@ export default function DuelsScoreboard(props) {
             // case props ready
             let lowerEloUsername = props.duel.lowerEloUsername
             let higherEloUsername = props.duel.higherEloUsername
-            console.log(lowerEloUsername)
-            console.log(higherEloUsername)
 
             const isDoubles = props.duel.isDoublesMatch;
-            console.log(isDoubles)
 
             setIsDoublesMatch(isDoubles);
 

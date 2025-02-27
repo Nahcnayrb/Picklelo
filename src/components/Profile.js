@@ -7,6 +7,7 @@ import "./Profile.css"
 import Button from 'react-bootstrap/Button';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import WatchModal from './WatchModal';
+import { Navigate } from "react-router-dom";
 
 export default function Profile(props) {
     const { username } = useParams()
@@ -15,16 +16,7 @@ export default function Profile(props) {
     const [completedDuels, setCompletedDuels] = useState([])
     const [showWatchModal, setShowWatchModal] = useState(false)
     const [duelToBeWatched ,setDuelToBeWatched] = useState()
-
-    // need player map to map usernames to actual names
-    // 
-
-    async function fetchData() {
-
-        const map = await props.fetchPlayerMap();
-        setPlayerMap(map)
-
-    }
+    const [redirectToHome, setRedirectToHome] = useState(false)
 
     // only get duels relating to a player
     async function fetchDuels() {
@@ -142,7 +134,15 @@ export default function Profile(props) {
         } else {
             // case match completed
             // determine winner
-            return userIsWinner(duel, username) ? "victory-match-container" : "defeat-match-container";
+            if (duel.higherEloScore === 0 || duel.lowerEloScore === 0) {
+                if (userIsWinner(duel, username)) {
+                    return "pickled-match-container";
+                } else {
+                    return "ugly-pickled-match-container";
+                }
+            } else {
+                return userIsWinner(duel, username) ? "victory-match-container" : "defeat-match-container";
+            }
         }
 
     }
@@ -150,14 +150,20 @@ export default function Profile(props) {
     useEffect(()=> {
         
         if (props) {
-            fetchData();
-            fetchDuels();
+            if (props.fetchStatus === "failed") {
+                setRedirectToHome(true)
+            } else if (props.playerMap) {
+                setPlayerMap(props.playerMap)
+                fetchDuels();
+                window.scrollTo(0,0);
+            }
         }
-        window.scrollTo(0,0);
 
     },[props, username])
 
-    return (
+    if (redirectToHome) {
+        return <Navigate to={'/'}/>
+    } else return (
         <div className="duels-dashboard-container">
             <div className="profile-header-container">
                 {playerMap?<h2 style={{textAlign: "center", color: "white", fontSize: "45px"}}>{playerMap.get(username).name}</h2>:""}
@@ -205,7 +211,7 @@ export default function Profile(props) {
                                 <label className="date-label">{duel.date.substring(0,10)}</label>
 
                                 <label className="status-label">{(duel.higherEloScore !== undefined && duel.lowerEloScore !== undefined)?
-                                userIsWinner(duel, username) ? "VICTORY" : "DEFEAT"
+                                userIsWinner(duel, username) ? "VICTORY" : duel.higherEloScore === 0 || duel.lowerEloScore === 0 ? "PICKLED" : "DEFEAT"
                                 :
                                 "IN PROGRESS"}</label>
 
