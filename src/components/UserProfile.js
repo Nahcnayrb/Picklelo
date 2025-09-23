@@ -22,14 +22,14 @@ export default function UserProfile(props) {
 
     useEffect(()=> {
 
-        if (props.user) {
+        if (props.user && props.pfpMap) {
 
             setEmail(props.user.email)
             setName(props.user.name)
             setProfilePicture(getPfp(props.user))
         }
     
-        },[props.user]
+        },[props]
     )
 
     function getPfp(player) {
@@ -39,6 +39,7 @@ export default function UserProfile(props) {
         } else {
             // case has pfp
             setPfpIsDefault(false)
+            // return props.pfpMap.get(player.username);
             return process.env.REACT_APP_BLOB_STORAGE_URL + player.username + "?m=" + Date.now().toString();
         }
     }
@@ -54,8 +55,6 @@ export default function UserProfile(props) {
 
                 setPfpUploadStatus("Uploading...")
 
-                console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
-
                 const options = {
                     maxSizeMB: 0.5,
                     maxWidthOrHeight: 1024,
@@ -65,9 +64,6 @@ export default function UserProfile(props) {
 
 
                 const compressedFile = await imageCompression(imageFile, options);
-
-
-                console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
 
                 const file = URL.createObjectURL(compressedFile)
                 setProfilePicture(file)
@@ -144,7 +140,6 @@ export default function UserProfile(props) {
             // disable save button until api call is complete, so user can't spam api requests
             setStatus("Saving")
             setDisableSave(true)
-            console.log(profilePicture);
 
             if ((profilePicture) && (!pfpIsDefault)) {
 
@@ -161,8 +156,6 @@ export default function UserProfile(props) {
     
                 await axios.put(url, formData, config).then(
                     res => {
-                        console.log("ADDED/UPDATED PFP FOR " + username);
-
                     }
                 ).catch(
                     err => {
@@ -181,6 +174,8 @@ export default function UserProfile(props) {
                 res => {
                     console.log("updated player");
                     setStatus("Saved");
+
+                    props.fetchData();
 
                 }
             ).catch(

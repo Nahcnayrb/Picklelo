@@ -49,7 +49,8 @@ export default function DuelsDashboard(props) {
             return defaultpfp;
         } else {
             // case has pfp
-            return process.env.REACT_APP_BLOB_STORAGE_URL + player.username + "?m=" + Date.now().toString();
+            // return process.env.REACT_APP_BLOB_STORAGE_URL + player.username + "?m=" + Date.now().toString();
+            return props.pfpMap.get(player.username);
         }
 
     }
@@ -91,7 +92,6 @@ export default function DuelsDashboard(props) {
     }
 
     function handleClickWatch(duel) {
-        console.log("clicked watch")
         setShowWatchModal(true)
         setDuelToBeWatched(duel)
     }

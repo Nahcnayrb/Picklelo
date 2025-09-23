@@ -56,7 +56,6 @@ export default function DeleteDuelModal(props) {
         // delete duel
 
         await axios.delete("/duels/" + props.duel._id)
-        console.log("deleted duel")
 
         await props.fetchData()
         

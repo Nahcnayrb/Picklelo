@@ -47,7 +47,9 @@ export default function Leaderboard(props) {
             return defaultpfp;
         } else {
             // case has pfp
-            return process.env.REACT_APP_BLOB_STORAGE_URL + player.username + "?m=" + Date.now().toString();
+            // return process.env.REACT_APP_BLOB_STORAGE_URL + player.username;
+            
+            return props.pfpMap.get(player.username);
         }
 
     }

@@ -1,6 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect, useRef } from 'react';
 import defaultpfp from "./0617.png"
 import { Divider } from "@mui/material";
 import "./Profile.css"
@@ -8,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import WatchModal from './WatchModal';
 import { Navigate } from "react-router-dom";
+import Highlights from './Highlights';
 
 export default function Profile(props) {
     const { username } = useParams()
@@ -17,16 +17,23 @@ export default function Profile(props) {
     const [showWatchModal, setShowWatchModal] = useState(false)
     const [duelToBeWatched ,setDuelToBeWatched] = useState()
     const [redirectToHome, setRedirectToHome] = useState(false)
+    const [showMatchHistory, setShowMatchHistory] = useState(true)
+    const [highlights, setHighlights] = useState([])
+    const [clickedPfpUsername, setClickedPfpUsername] = useState("")
 
     // only get duels relating to a player
-    async function fetchDuels() {
-        const res = await axios.get('/duels/' + username);
-        const duels = res.data;
-        duels.sort((a,b) => (Date.parse(b.date) - Date.parse(a.date)));
-        setDuels(res.data)
-        const completed = duels.filter((duel) => (duel.higherEloScore !== undefined) && (duel.lowerEloScore !== undefined))
+    function processDuels() {
+        const filteredDuels = props.duels.filter(duel => duel.lowerEloUsername.includes(username) || duel.higherEloUsername.includes(username));
+        filteredDuels.sort((a,b) => (Date.parse(b.date) - Date.parse(a.date)));
+        setDuels(filteredDuels);
+        const completed = filteredDuels.filter((duel) => (duel.higherEloScore !== undefined) && (duel.lowerEloScore !== undefined))
         setCompletedDuels(completed)
 
+    }
+
+    function processHighlights() {
+        const filteredHighlights = props.highlights.filter(highlight => highlight.playerUsernames.includes(username));
+        setHighlights(filteredHighlights)
     }
 
     function getPlayerRank() {
@@ -57,7 +64,7 @@ export default function Profile(props) {
             return defaultpfp;
         } else {
             // case has pfp
-            return process.env.REACT_APP_BLOB_STORAGE_URL + player.username + "?m=" + Date.now().toString();
+            return props.pfpMap.get(player.username);
         }
 
     }
@@ -154,7 +161,8 @@ export default function Profile(props) {
                 setRedirectToHome(true)
             } else if (props.playerMap) {
                 setPlayerMap(props.playerMap)
-                fetchDuels();
+                processDuels();
+                processHighlights();
                 window.scrollTo(0,0);
             }
         }
@@ -163,6 +171,9 @@ export default function Profile(props) {
 
     if (redirectToHome) {
         return <Navigate to={'/'}/>
+    } else if (clickedPfpUsername.length > 0) {
+        window.location.href = `/Picklelo/#/players/${clickedPfpUsername}`;
+        window.location.reload()
     } else return (
         <div className="duels-dashboard-container">
             <div className="profile-header-container">
@@ -189,14 +200,32 @@ export default function Profile(props) {
             </div>
             <div className="match-history-container">
                 <div className="recent-matches-header">
-                    <div className="recent-matches-header-container">
+                    {showMatchHistory
+                    ?
+                    <div className="recent-matches-selected-header-container" onClick={()=>{setShowMatchHistory(true)}}>
                         <h2 className="recent-matches-label" >Recent Matches </h2>
                     </div>
-                    <Divider className="vertical-divider" orientation="vertical" flexItem/>
-                    <div className="highlights-header-container">
-                        <h2 className="recent-matches-label">Highlights </h2>
+                    :
+                    <div className="recent-matches-unselected-header-container" onClick={()=>{setShowMatchHistory(true)}}>
+                        <h2 className="recent-matches-label" >Recent Matches </h2>
                     </div>
+                    }
+                    <Divider className="vertical-divider" orientation="vertical" flexItem/>
+                    {!showMatchHistory
+                    ?
+                    <div className="highlights-selected-header-container" onClick={()=>{setShowMatchHistory(false)}}>
+                    <h2 className="highlights-label">Highlights</h2>
+                    </div>
+                    :
+                    <div className="highlights-unselected-header-container" onClick={()=>{setShowMatchHistory(false)}}>
+                    <h2 className="highlights-label">Highlights </h2>
                 </div>
+                    
+                    }
+
+                </div>
+                {showMatchHistory
+                ?
                 <div className="matches-container">
                     {duels && duels.length !== 0 ? duels.map((duel, i) => (
                         <div className={getContainer(duel, username)} key={i}>
@@ -268,8 +297,22 @@ export default function Profile(props) {
                     )):""
                     }
                     <div style={{marginTop: "4rem"}}></div>
-
                 </div>
+                :
+                !highlights || !playerMap ? "" :
+                    <div className='highlights-container'>
+
+                        <Highlights
+                            highlights={highlights}
+                            playerMap={playerMap}
+                            setClickedPfpUsername={setClickedPfpUsername}
+                            getPfp={getPfp}
+                            isHighlightsDashboard={true}
+                            isLoggedIn={props.isLoggedIn}
+                        />
+
+                    </div>
+                }
             </div>
         </div>
     
