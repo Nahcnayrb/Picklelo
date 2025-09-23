@@ -1,5 +1,6 @@
 import { CircularProgress } from '@mui/material';
-import pickleball from "./pickleball-logo.png"
+// import pickleball from "./pickleball-logo.png"
+import pickleball from "./picklelo-logo.png"
 import { useState, useEffect} from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
@@ -10,7 +11,6 @@ export default function Home() {
     const [selectedPlayer, setSelectedPlayer] = useState()
     const [loadedPlayers, setLoadedPlayers] = useState()
     const [data, setData] = useState([])
-
 
     const [numTries, setNumTries] = useState(0);
     function handleSelect(item) {
@@ -85,9 +85,9 @@ export default function Home() {
                 :
                 <div>
                     
-                    <h4>Server is waking up...</h4>
+                    {/* <h4>Server is waking up...</h4>
                     <h4> Picklelo should be ready in ~1 min.</h4>
-                    <h6 style={{paddingBottom: "3rem"}}>This page will automatically refresh once the server is ready.</h6>
+                    <h6 style={{paddingBottom: "3rem"}}>This page will automatically refresh once the server is ready.</h6> */}
                     <CircularProgress color='inherit' />
                     
                 </div>

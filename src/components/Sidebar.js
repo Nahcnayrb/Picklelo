@@ -2,6 +2,7 @@ import React from 'react';
 import { slide as Menu } from 'react-burger-menu';
 import './Sidebar.css';
 import { Leaderboard, SportsKabaddi, ThumbDown, Groups} from '@mui/icons-material';
+import StarIcon from '@mui/icons-material/Star';
 import { useState } from 'react';
 export default props => {
 
@@ -34,6 +35,11 @@ export default props => {
         <Leaderboard fontSize="medium" style={{marginLeft: "7px", marginBottom: "8px"}}/>
       </a>
 
+      <a className="menu-item" href="#/highlights" onClick={handleIsOpen}>
+        Highlights
+        <StarIcon fontSize="medium" style={{marginLeft: "7px", marginBottom: "5px"}}/>
+      </a>
+
       <a className="menu-item" href="#/duels" onClick={handleIsOpen}>
         Duels
         <SportsKabaddi fontSize="medium" style={{marginLeft: "7px", marginBottom: "6px"}}/>
@@ -43,11 +49,6 @@ export default props => {
         Tournaments
         <Groups fontSize="medium" style={{marginLeft: "5px", marginBottom: "6px"}}/>
       </a>
-
-      {/* <a className="menu-item" href="#/pickled" onClick={handleIsOpen}>
-        Pickled List
-        <ThumbDown fontSize="medium" style={{marginLeft: "7px", marginBottom: "5px"}}/>
-      </a> */}
 
       <div className='padding'/>
 

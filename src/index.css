@@ -8,6 +8,7 @@ body {
   margin: 0 !important;
   background-color: #82AC85 !important;
 
+
 }
 
 body, html, #root, .auth-wrapper {
@@ -141,8 +142,9 @@ font-size: 22px;
 }
 
 .pickleball-img {
-  width: 450px;
-  height: 400px;
+  width: 787px;
+  height: 276px;
+  margin-top: 80px;
 
 }
 
@@ -350,6 +352,69 @@ h4 {
 }
 
 
+.highlight-label {
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 1rem;
+  margin-right: 1rem;
+}
+
+.highlight-title-label {
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.highlight-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.highlight-pfp {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  min-height: 60px;
+  max-width: 60px;
+  max-height: 60px;
+  margin-bottom: 1rem;
+  margin-left: 0.8rem;
+}
+
+.highlight-pfps-container {
+  display: flex;
+}
+
+.clipped-by-container {
+  display: flex;
+  justify-content: right;
+}
+
+.player-container {
+  display: flex;
+  justify-content: center;
+  height: 35rem;
+}
+
+.progress-bar {
+  
+  width: 100%
+}
+
+.timestamp-container {
+  display: flex;
+}
+
+.nav-bar-logo {
+  /* 795 314 */
+  width: 133px;
+  height: 53px;
+  margin-top: 5px;
+}
+
+
 
 @media (max-width: 1200px) {
 
@@ -372,9 +437,13 @@ h4 {
   }
 
   .pickleball-img {
-    width: 300px;
-    height: 250px;
+    /* 787 276*/
+    width: 393px;
+    height: 138px;
     margin-left: 0px;
+    margin-top: 60px;
+    /* padding-bottom: 50px; */
+
   }
 
   .searchbox {
@@ -410,6 +479,31 @@ h4 {
   .video-player {
     width: 22rem;
     height: 15rem;
+  }
+
+  .highlight-pfp {
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    min-height: 45px;
+    max-width: 30px;
+    max-height: 30px;
+
+  }
+
+  .player-container {
+    height: 20rem;
+  }
+
+  .progress-bar {
+    margin-top: -0.3rem;
+  }
+
+  .nav-bar-logo {
+    /* 795 314 */
+    width: 133px;
+    height: 52px;
+    margin-top: 5px;
   }
 
 }

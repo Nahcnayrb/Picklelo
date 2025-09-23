@@ -82,7 +82,6 @@ export default function Register() {
 
         axios.post("/players", accountData).then(
             res => {
-                console.log("register account api call")
                 setRegistered(true)
                 alert("Your account was successfully created!")
             }

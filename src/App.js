@@ -13,6 +13,7 @@ import DuelsDashboard from './components/DuelsDashboard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import TournamentDashboard from './components/TournamentDashboard';
 import UserProfile from './components/UserProfile';
+import HighlightsDashboard from './components/HighlightsDashboard';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -20,6 +21,8 @@ function App() {
   const [playerMap, setPlayerMap] = useState()
   const [fetchStatus, setFetchStatus] = useState("pending")
   const [duels, setDuels] = useState()
+  const [pfpMap, setPfpMap] = useState()
+  const [highlights, setHighlights] = useState()
 
   const token = localStorage.getItem("picklelo-token")
 
@@ -27,14 +30,10 @@ function App() {
     axios.get("/login/authenticate/" + token).then(
         res => {
             let user = res.data
-            console.log("Fetched user!")
             setUser(user)
         }
     ).catch(
         err => {
-            // if (err.response.status === 404) {
-            //     console.log("could not fetch user data")
-            // }
         }
     )
 
@@ -62,6 +61,31 @@ function App() {
 
   }
 
+  async function fetchHighlights() {
+    const res = await axios.get("/highlights");
+
+    let fetchedHighlights = res.data;
+    fetchedHighlights.sort(function(a,b) {
+      return new Date(b.date) - new Date(a.date)
+    });
+  
+    setHighlights(fetchedHighlights);
+  }
+
+  async function fetchPfps(playerUsernames) {
+
+    const currPfpMap = new Map();
+
+    for (let i = 0; i < playerUsernames.length; i++) {
+      const username = playerUsernames[i];
+      const response = await fetch(process.env.REACT_APP_BLOB_STORAGE_URL + username);
+      const file = await response.blob();
+      const fileLocalUrl = URL.createObjectURL(file)
+      currPfpMap.set(username, fileLocalUrl);
+    }
+    setPfpMap(currPfpMap);
+  }
+
   async function fetchData() {
 
     if (token) {
@@ -70,16 +94,20 @@ function App() {
     }
 
     try {
-      console.log('fetch player map')
       const fetchedPlayerMap = await fetchPlayerMap()
+      // filter out players with pfps
+      const players = Array.from(fetchedPlayerMap.values());
+      const playersWithPfps = players.filter(player => player.hasPfp === true );
+      const playerNamesWithPfps = playersWithPfps.map(player => player.username);
+      await fetchPfps(playerNamesWithPfps)
+      await fetchHighlights()
       const fetchedDuels = await fetchDuels()
 
       setDuels(fetchedDuels)
       setPlayerMap(fetchedPlayerMap)
-      console.log('fetch succeeded yay')
+      // setPfpMap(fetchedPfpMap)
       setFetchStatus("fetched")
     } catch (err) {
-      console.log('app data fetch failed');
       setFetchStatus("failed")
       // this is to catch the errors that occur if api calls fail
       // if they fail, just let them be since we will retry when the server is ready
@@ -105,11 +133,12 @@ function App() {
                 <Route exact path='/' element={<Home fetchData={fetchData} playerMap={playerMap} fetchStatus={fetchStatus}/>}/>
                 <Route exact path='/login' element={<Login/>}/>
                 <Route exact path='/register' element={<Register/>}/>
-                <Route exact path ='/players/:username' element={<Profile fetchPlayerMap={fetchPlayerMap} playerMap={playerMap} fetchStatus={fetchStatus}/>}/>
-                <Route exact path ='/leaderboard' element={<Leaderboard playerMap={playerMap} fetchStatus={fetchStatus} />}/>
+                <Route exact path ='/players/:username' element={<Profile fetchPlayerMap={fetchPlayerMap} playerMap={playerMap} fetchStatus={fetchStatus} pfpMap={pfpMap} duels={duels} highlights={highlights}/>}/>
+                <Route exact path ='/leaderboard' element={<Leaderboard playerMap={playerMap} fetchStatus={fetchStatus} pfpMap={pfpMap}/>}/>
                 <Route exact path ='/tournaments' element={<TournamentDashboard/>}/>
-                <Route exact path = '/duels' element={<DuelsDashboard isLoggedIn={isLoggedIn} user={user} fetchPlayerMap={fetchPlayerMap} playerMap={playerMap} fetchStatus={fetchStatus} fetchData={fetchData} duels={duels}/>}/>
-                <Route exact path = '/settings' element={<UserProfile user={user} fetchPlayerMap={fetchPlayerMap}/>}/>
+                <Route exact path = '/duels' element={<DuelsDashboard isLoggedIn={isLoggedIn} user={user} playerMap={playerMap} fetchStatus={fetchStatus} fetchData={fetchData} duels={duels} pfpMap={pfpMap}/>}/>
+                <Route exact path = '/settings' element={<UserProfile user={user} fetchPlayerMap={fetchPlayerMap} fetchData={fetchData} pfpMap={pfpMap}/>}/>
+                <Route exact path='/highlights' element={<HighlightsDashboard  isLoggedIn={isLoggedIn} user={user} playerMap={playerMap} fetchStatus={fetchStatus} fetchData={fetchData} highlights={highlights} pfpMap={pfpMap} />}></Route>
               </Routes>
           </div>
         
