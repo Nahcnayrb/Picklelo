@@ -1,6 +1,5 @@
 import { CircularProgress } from '@mui/material';
-// import pickleball from "./pickleball-logo.png"
-import pickleball from "./picklelo-logo.png"
+import pickleball from "../assets/picklelo-logo.png"
 import { useState, useEffect} from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";

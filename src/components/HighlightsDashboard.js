@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 
 import "./DuelsDashboard.css"
 
-import defaultpfp from "./0617.png"
+import defaultpfp from "../assets/defaultpfp.png";
 import { Navigate } from "react-router-dom";
 import StarIcon from '@mui/icons-material/Star';
 import DeleteHighlightModal from './DeleteHighlightModal';

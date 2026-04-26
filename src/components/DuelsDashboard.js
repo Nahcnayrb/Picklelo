@@ -7,7 +7,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ScoreboardIcon from '@mui/icons-material/Scoreboard';
 import "./DuelsDashboard.css"
 import { Divider } from "@mui/material";
-import defaultpfp from "./0617.png"
+
+import defaultpfp from "../assets/defaultpfp.png";
 import DuelsScoreboard from "./DuelsScoreboard";
 import DeleteDuelModal from "./DeleteDuelModal";
 import { Navigate } from "react-router-dom";
