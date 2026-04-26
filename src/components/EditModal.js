@@ -47,6 +47,7 @@ export default function EditModal(props) {
         setUrlError()
         props.setShow(false)
     }
+    
 
     return (
         <Modal

@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import defaultpfp from "./0617.png"
+import defaultpfp from "../assets/defaultpfp.png";
 import { Divider } from "@mui/material";
 import "./Profile.css"
 import Button from 'react-bootstrap/Button';

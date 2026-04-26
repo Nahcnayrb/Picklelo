@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useState } from 'react'
 import { Button } from '@mui/material'
-import defaultpfp from "./0617.png"
+import defaultpfp from "../assets/defaultpfp.png";
 import Alert from '@mui/material/Alert'
 import imageCompression from 'browser-image-compression';
 import axios from "axios"
