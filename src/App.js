@@ -90,7 +90,7 @@ function App() {
 
     if (token) {
       setIsLoggedIn(true)
-      fetchUserData(token)
+      fetchUserData()
     }
 
     try {
