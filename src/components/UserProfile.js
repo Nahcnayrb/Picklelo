@@ -168,8 +168,6 @@ export default function UserProfile(props) {
                 // update user data to reflect new changes
             }
 
-            console.log(data);
-
             await axios.put("/players/" + username, data).then(
                 res => {
                     console.log("updated player");
