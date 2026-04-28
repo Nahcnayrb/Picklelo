@@ -42,17 +42,6 @@ export default function DeleteDuelModal(props) {
 
     async function handleConfirm() {
 
-        // if lowerEloScore & higherEloScore exists, this means duel is completed
-        // need to revert changes
-        // else just need to delete duel
-
-        let matchIsCompleted = (props.duel.lowerEloScore && props.duel.higherEloScore)
-
-        if (matchIsCompleted) {
-            // need to revert changes
-           revertEloChanges()
-        }
-
         // delete duel
 
         await axios.delete("/duels/" + props.duel._id)
@@ -61,78 +50,6 @@ export default function DeleteDuelModal(props) {
         
         handleClose()
 
-    }
-
-    async function revertEloChanges() {
-        // if we're in this function, the current duel is for sure completed
-
-        let lowerEloPlayerChange = 0
-        let higherEloPlayerChange = 0
-
-        // determine who the winner is
-        // apply elo change to both players
-        if (Number(props.duel.lowerEloScore) > Number(props.duel.higherEloScore)) {
-            // lower elo player wins
-            // lower elo gains lowerEloPotentialGain
-            // higher elo loses lowerEloPotentialGain
-            lowerEloPlayerChange = Number(props.duel.lowerEloGainPotential)
-            higherEloPlayerChange = (-1) * lowerEloPlayerChange
-
-        } else {
-            // higher elo player wins
-            // lower elo loses higherEloPotentialGain
-            // higher elo gains higherEloPotentialGain
-            higherEloPlayerChange = Number(props.duel.higherEloGainPotential)
-            lowerEloPlayerChange = (-1) * higherEloPlayerChange
-
-
-        }
-
-        let higherEloReversion = (-1) * higherEloPlayerChange
-        let lowerEloReversion = (-1) * lowerEloPlayerChange
-
-
-        let lowerEloUsername = props.duel.lowerEloUsername
-        let higherEloUsername = props.duel.higherEloUsername
-
-        let promises = [];
-        if (isDoublesMatch) {
-
-            const player1Elo = { elo: Math.floor(props.playerMap.get(lowerEloUsername[0]).elo + lowerEloReversion) };
-            const player2Elo = { elo: Math.floor(props.playerMap.get(lowerEloUsername[1]).elo + lowerEloReversion) };
-
-            const player3Elo = { elo: Math.floor(props.playerMap.get(higherEloUsername[0]).elo + higherEloReversion) };
-            const player4Elo = { elo: Math.floor(props.playerMap.get(higherEloUsername[1]).elo + higherEloReversion) };
-
-
-            promises.push(axios.put("/players/" + lowerEloUsername[0], player1Elo));
-            promises.push(axios.put("/players/" + lowerEloUsername[1], player2Elo));
-            promises.push(axios.put("/players/" + higherEloUsername[0], player3Elo));
-            promises.push(axios.put("/players/" + higherEloUsername[1], player4Elo));
-
-        } else {
-            
-            let originalLowerElo = props.playerMap.get(lowerEloUsername[0]).elo
-            let originalHigherElo = props.playerMap.get(higherEloUsername[0]).elo
-
-            let newLowerElo = originalLowerElo + lowerEloReversion
-            let newHigherElo = originalHigherElo + higherEloReversion
-
-            let lowerEloData = {
-                elo: Math.floor(newLowerElo)
-            }
-
-            let higherEloData = {
-                elo: Math.floor(newHigherElo)
-            }
-
-            // if game mode is doubles, we need to apply elo changes to all 4 players
-            promises.push(axios.put("/players/" + lowerEloUsername[0], lowerEloData));
-            promises.push(axios.put("/players/" + higherEloUsername[0], higherEloData));
-        }
-
-        await Promise.all(promises);
-    
     }
 
     return (
