@@ -1,13 +1,13 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import defaultpfp from "../assets/defaultpfp.png";
+import defaultpfp from "../../assets/defaultpfp.png";
 import { Divider } from "@mui/material";
 import "./Profile.css"
 import Button from 'react-bootstrap/Button';
 import VideocamIcon from '@mui/icons-material/Videocam';
-import WatchModal from './WatchModal';
+import WatchModal from '../Shared/WatchModal';
 import { Navigate } from "react-router-dom";
-import Highlights from './Highlights';
+import Highlights from '../Highlights/Highlights';
 
 export default function Profile(props) {
     const { username } = useParams()
