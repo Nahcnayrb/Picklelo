@@ -56,11 +56,6 @@ export default function Register() {
             currConfirmPasswordError = "Passwords do not match."
         }
 
-
-        // if (usernameError || nameError || emailError || passwordError || confirmPasswordError) {
-        //     return
-        // }
-
         setUsernameError(currUsernameError)
         setNameError(currNameError)
         setEmailError(currEmailError)

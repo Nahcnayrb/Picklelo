@@ -36,9 +36,7 @@ export default function Highlights(props) {
 
         if (playedSeconds >= endTime) {
             playerRef.current[index].seekTo(startTime, "seconds");
-            // setTimeout(() => {
-                setActivePlayerIndex(index)
-            //   }, 100);
+            setActivePlayerIndex(index)
         }
     }
 

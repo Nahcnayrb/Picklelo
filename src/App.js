@@ -105,7 +105,6 @@ function App() {
 
       setDuels(fetchedDuels)
       setPlayerMap(fetchedPlayerMap)
-      // setPfpMap(fetchedPfpMap)
       setFetchStatus("fetched")
     } catch (err) {
       setFetchStatus("failed")

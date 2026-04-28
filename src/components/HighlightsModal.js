@@ -74,8 +74,6 @@ export default function HighlightsModal(props) {
 
     function handlePreviewReady() {
         if (validatedYoutubeUrl != "") {
-            // setMin(0);
-            // setMax(300);
             const duration = previewRef.current.getDuration();
             setStartTimeSec(0)
             setStartTimeMin(0)
