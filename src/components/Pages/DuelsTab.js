@@ -1,4 +1,4 @@
-import DuelsModal from "./DuelsModal";
+import DuelsModal from "../Duels/DuelsModal";
 import { useState, useEffect} from "react";
 import axios from "axios";
 import Button from 'react-bootstrap/Button';
@@ -8,16 +8,16 @@ import ScoreboardIcon from '@mui/icons-material/Scoreboard';
 import "./DuelsDashboard.css"
 import { Divider } from "@mui/material";
 
-import defaultpfp from "../assets/defaultpfp.png";
-import DuelsScoreboard from "./DuelsScoreboard";
-import DeleteDuelModal from "./DeleteDuelModal";
+import defaultpfp from "../../assets/defaultpfp.png";
+import DuelsScoreboard from "../Duels/DuelsScoreboard";
+import DeleteDuelModal from "../Duels/DeleteDuelModal";
 import { Navigate } from "react-router-dom";
 import VideocamIcon from '@mui/icons-material/Videocam';
 import EditIcon from '@mui/icons-material/Edit';
-import WatchModal from "./WatchModal";
-import EditModal from "./EditModal";
+import WatchModal from "../Shared/WatchModal";
+import EditModal from "../Duels/EditModal";
 
-export default function DuelsDashboard(props) {
+export default function DuelsTab(props) {
 
     const [showModal, setShowModal] = useState(false)
     const [players, setPlayersData] = useState([])

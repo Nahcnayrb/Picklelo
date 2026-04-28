@@ -1,18 +1,18 @@
 
 import Button from 'react-bootstrap/Button';
 
-import HighlightsModal from './HighlightsModal';
+import HighlightsModal from '../Highlights/HighlightsModal';
 import { useState, useEffect } from "react";
 
-import "./DuelsDashboard.css"
+import "./DuelsDashboard.css";
 
-import defaultpfp from "../assets/defaultpfp.png";
+import defaultpfp from "../../assets/defaultpfp.png";
 import { Navigate } from "react-router-dom";
 import StarIcon from '@mui/icons-material/Star';
-import DeleteHighlightModal from './DeleteHighlightModal';
-import Highlights from './Highlights';
+import DeleteHighlightModal from '../Highlights/DeleteHighlightModal';
+import Highlights from '../Highlights/Highlights';
 
-export default function HighlightsDashboard(props) {
+export default function HighlightsTab(props) {
 
     const [showModal, setShowModal] = useState(false)
     const [players, setPlayersData] = useState([])

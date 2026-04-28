@@ -1,19 +1,19 @@
 import { HashRouter } from 'react-router-dom';
-import NavigationBar from './components/NavigationBar';
-import Sidebar from './components/Sidebar';
+import NavigationBar from './components/Shared/NavigationBar';
+import Sidebar from './components/Shared/Sidebar';
 import { Routes,Route } from 'react-router-dom';
-import Home from './components/Home';
-import Login from './components/Login';
-import Register from './components/Register';
-import Profile from './components/Profile';
+import Home from './components/Pages/Home';
+import Login from './components/Pages/Login';
+import Register from './components/Pages/Register';
+import Profile from './components/Pages/Profile';
 import { useState, useEffect} from 'react';
 import axios from 'axios';
-import Leaderboard from './components/Leaderboard';
-import DuelsDashboard from './components/DuelsDashboard';
+import Leaderboard from './components/Pages/Leaderboard';
+import DuelsTab from './components/Pages/DuelsTab';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import TournamentDashboard from './components/TournamentDashboard';
-import UserProfile from './components/UserProfile';
-import HighlightsDashboard from './components/HighlightsDashboard';
+import TournamentDashboard from './components/Pages/TournamentDashboard';
+import UserProfile from './components/Pages/UserProfile';
+import HighlightsTab from './components/Pages/HighlightsTab';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -135,9 +135,9 @@ function App() {
                 <Route exact path ='/players/:username' element={<Profile fetchPlayerMap={fetchPlayerMap} playerMap={playerMap} fetchStatus={fetchStatus} pfpMap={pfpMap} duels={duels} highlights={highlights}/>}/>
                 <Route exact path ='/leaderboard' element={<Leaderboard playerMap={playerMap} fetchStatus={fetchStatus} pfpMap={pfpMap}/>}/>
                 <Route exact path ='/tournaments' element={<TournamentDashboard/>}/>
-                <Route exact path = '/duels' element={<DuelsDashboard isLoggedIn={isLoggedIn} user={user} playerMap={playerMap} fetchStatus={fetchStatus} fetchData={fetchData} duels={duels} pfpMap={pfpMap}/>}/>
+                <Route exact path = '/duels' element={<DuelsTab isLoggedIn={isLoggedIn} user={user} playerMap={playerMap} fetchStatus={fetchStatus} fetchData={fetchData} duels={duels} pfpMap={pfpMap}/>}/>
                 <Route exact path = '/settings' element={<UserProfile user={user} fetchPlayerMap={fetchPlayerMap} fetchData={fetchData} pfpMap={pfpMap}/>}/>
-                <Route exact path='/highlights' element={<HighlightsDashboard  isLoggedIn={isLoggedIn} user={user} playerMap={playerMap} fetchStatus={fetchStatus} fetchData={fetchData} highlights={highlights} pfpMap={pfpMap} />}></Route>
+                <Route exact path='/highlights' element={<HighlightsTab  isLoggedIn={isLoggedIn} user={user} playerMap={playerMap} fetchStatus={fetchStatus} fetchData={fetchData} highlights={highlights} pfpMap={pfpMap} />}></Route>
               </Routes>
           </div>
         

@@ -1,7 +1,7 @@
 
 import { useState, useEffect} from 'react';
 import axios from 'axios';
-import defaultpfp from "../assets/defaultpfp.png";
+import defaultpfp from "../../assets/defaultpfp.png";
 import { Navigate } from "react-router-dom";
 
 import { Divider } from '@mui/material';
